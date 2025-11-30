@@ -75,12 +75,24 @@
                         <a href="certificates.html" class="hover:text-primary transition-colors duration-300 px-3 py-2 rounded-md text-sm font-medium">Certificates</a>
                         <a href="education.html" class="hover:text-primary transition-colors duration-300 px-3 py-2 rounded-md text-sm font-medium">Education</a>
                         <a href="projects.html" class="hover:text-primary transition-colors duration-300 px-3 py-2 rounded-md text-sm font-medium">Projects</a>
-                        <a href="contact.html"class="hover:text-primary transition-colors duration-300 px-3 py-2 rounded-md text-sm font-medium">Contact Me</a>
+                        <a href="contact.html" class="bg-primary hover:bg-cyan-400 text-black px-4 py-2 rounded-full transition-all duration-300 font-bold shadow-lg shadow-primary/20 hover:shadow-primary/50">Contact Me</a>
                     </div>
                 </div>
                  <div class="-mr-2 flex md:hidden">
                     <button id="mobile-menu-btn" class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-gray-700"><i class="fas fa-bars text-xl"></i></button>
                 </div>
+            </div>
+        </div>
+        
+        <div class="md:hidden hidden bg-black/95 backdrop-blur-md absolute w-full border-b border-gray-800" id="mobile-menu">
+            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3 text-center">
+                <a href="index.html" class="text-gray-300 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Home</a>
+                <a href="about.html" class="text-primary block px-3 py-2 rounded-md text-base font-medium">About</a>
+                <a href="skills.html" class="text-gray-300 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Skills</a>
+                <a href="certificates.html" class="text-gray-300 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Certificates</a>
+                <a href="education.html" class="text-gray-300 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Education</a>
+                <a href="projects.html" class="text-gray-300 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Projects</a>
+                <a href="contact.html" class="text-primary font-bold block px-3 py-2 rounded-md text-base">Contact</a>
             </div>
         </div>
     </nav>
@@ -217,8 +229,13 @@
             once: true,
         });
 
-        // Initialize Tilt (removed the redundant max setting on the global init)
+        // Initialize Tilt (using data-tilt attributes)
         VanillaTilt.init(document.querySelectorAll("[data-tilt]"));
+        
+        // Mobile Menu Toggle Logic (Required for the hamburger icon to work)
+        document.getElementById('mobile-menu-btn').addEventListener('click', function() {
+            document.getElementById('mobile-menu').classList.toggle('hidden');
+        });
     </script>
 </body>
 </html>
