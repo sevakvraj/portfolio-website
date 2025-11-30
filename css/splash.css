@@ -1,0 +1,127 @@
+/* =========================================
+   CINEMATIC SPLASH SCREEN STYLES
+   ========================================= */
+
+/* The Full Screen Overlay */
+#splash-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #050505; /* Deep black to match body */
+    z-index: 99999; /* Highest priority */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    /* Transition for the final fade out */
+    transition: opacity 0.8s ease-out, visibility 0.8s;
+}
+
+/* Helper class to hide it immediately if already visited */
+.splash-hidden-immediate {
+    display: none !important;
+}
+
+.splash-content {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    /* The Main Zoom Animation */
+    animation: zoomAndBreak 4s cubic-bezier(0.7, 0, 0.3, 1) forwards;
+    transform-origin: center;
+    will-change: transform, opacity, filter;
+}
+
+/* The "V" Logo Style */
+.v-logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 8rem;
+    line-height: 1;
+    color: transparent; 
+    -webkit-text-stroke: 4px #00d4ff; /* Neon Cyan Outline */
+    text-shadow: 0 0 40px rgba(0, 212, 255, 0.8);
+    margin-bottom: 1rem;
+    position: relative;
+    /* Pulse Animation */
+    animation: vPulse 2s ease-in-out infinite alternate;
+}
+
+/* "WELCOME" Title */
+.cinematic-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 4rem;
+    color: #ffffff;
+    letter-spacing: 5px;
+    margin: 0;
+    line-height: 1;
+    text-shadow: 0 0 20px rgba(255, 255, 255, 0.4);
+    white-space: nowrap;
+}
+
+/* "TO VRAJ'S PORTFOLIO" Subtitle */
+.cinematic-subtitle {
+    font-family: 'Poppins', sans-serif;
+    color: #00d4ff; /* Accent Color */
+    font-size: 1rem;
+    letter-spacing: 15px;
+    margin-top: 10px;
+    text-transform: uppercase;
+    font-weight: 600;
+    opacity: 0;
+    animation: fadeInSubtitle 1.5s ease 0.5s forwards;
+}
+
+/* --- KEYFRAMES --- */
+
+/* 1. Zoom & Break Effect */
+@keyframes zoomAndBreak {
+    0% {
+        transform: scale(0.5);
+        opacity: 0;
+        filter: blur(10px);
+    }
+    15% {
+        transform: scale(1);
+        opacity: 1;
+        filter: blur(0px);
+    }
+    60% {
+        transform: scale(1.1); /* Brief hover phase */
+        opacity: 1;
+    }
+    100% {
+        /* The Cinematic Fly-Through */
+        transform: scale(30) scaleY(2); 
+        letter-spacing: 50px;
+        opacity: 0;
+        filter: blur(10px);
+    }
+}
+
+/* 2. V Logo Pulse */
+@keyframes vPulse {
+    from {
+        text-shadow: 0 0 20px rgba(0, 212, 255, 0.5);
+        transform: translateY(0);
+    }
+    to {
+        text-shadow: 0 0 60px rgba(0, 212, 255, 1);
+        transform: translateY(-5px);
+    }
+}
+
+/* 3. Fade In Subtitle */
+@keyframes fadeInSubtitle {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Mobile Adjustments */
+@media (max-width: 768px) {
+    .v-logo { font-size: 5rem; -webkit-text-stroke: 2px #00d4ff; }
+    .cinematic-title { font-size: 2.5rem; }
+    .cinematic-subtitle { font-size: 0.7rem; letter-spacing: 8px; }
+}

@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About | Vraj Sevak</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <script src="https://cdn.lordicon.com/lordicon.js"></script>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    
+    <script>
+        tailwind.config = { 
+            theme: { 
+                extend: { 
+                    colors: { 
+                        primary: '#00d4ff', 
+                        secondary: '#ff007a', 
+                        dark: '#0a0a0a', 
+                        darker: '#050505', 
+                        card: 'rgba(255, 255, 255, 0.05)' 
+                    },
+                    boxShadow: {
+                        'neon': '0 0 20px rgba(0, 212, 255, 0.2), 0 0 40px rgba(0, 212, 255, 0.1)'
+                    }
+                } 
+            } 
+        }
+    </script>
+
+    <style>
+        /* Modern Glassmorphism Card */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        /* Hover Effect */
+        .glass-card:hover {
+            border-color: rgba(0, 212, 255, 0.5);
+            background: rgba(255, 255, 255, 0.06);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px -10px rgba(0, 212, 255, 0.3);
+        }
+
+        /* Text Gradient for Headings */
+        .text-gradient {
+            background: linear-gradient(to right, #00d4ff, #ff007a);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+    </style>
+</head>
+<body class="antialiased bg-darker text-white overflow-x-hidden">
+    <canvas id="particles-canvas" class="fixed inset-0 pointer-events-none z-0"></canvas>
+    
+    <nav class="fixed w-full z-50 glass-nav transition-all duration-300 backdrop-blur-md bg-black/80 border-b border-white/10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                <a href="index.html" class="flex-shrink-0 cursor-pointer group">
+                    <span class="text-2xl font-bold tracking-wider text-white group-hover:text-primary transition-colors">PORT<span class="text-primary group-hover:text-white transition-colors">FOLIO</span></span>
+                </a>
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-8">
+                        <a href="index.html" class="hover:text-primary transition-colors duration-300 px-3 py-2 rounded-md text-sm font-medium">Home</a>
+                        <a href="about.html" class="text-primary px-3 py-2 rounded-md text-sm font-medium">About</a>
+                        <a href="skills.html" class="hover:text-primary transition-colors duration-300 px-3 py-2 rounded-md text-sm font-medium">Skills</a>
+                        <a href="certificates.html" class="hover:text-primary transition-colors duration-300 px-3 py-2 rounded-md text-sm font-medium">Certificates</a>
+                        <a href="education.html" class="hover:text-primary transition-colors duration-300 px-3 py-2 rounded-md text-sm font-medium">Education</a>
+                        <a href="projects.html" class="hover:text-primary transition-colors duration-300 px-3 py-2 rounded-md text-sm font-medium">Projects</a>
+                        <a href="contact.html" class="bg-primary hover:bg-cyan-400 text-black px-4 py-2 rounded-full transition-all duration-300 font-bold shadow-lg shadow-primary/20 hover:shadow-primary/50">Contact Me</a>
+                    </div>
+                </div>
+                 <div class="-mr-2 flex md:hidden">
+                    <button id="mobile-menu-btn" class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-gray-700"><i class="fas fa-bars text-xl"></i></button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <section id="about" class="min-h-screen flex items-center py-20 relative pt-32">
+        <div class="absolute top-20 right-0 w-72 h-72 bg-primary/10 rounded-full blur-[100px] pointer-events-none"></div>
+        <div class="absolute bottom-20 left-0 w-72 h-72 bg-secondary/10 rounded-full blur-[100px] pointer-events-none"></div>
+
+        <div class="max-w-6xl mx-auto px-6 relative z-10">
+            <div class="text-center mb-16" data-aos="fade-up">
+                <h2 class="text-4xl md:text-5xl font-bold mb-4">About <span class="text-gradient">Me</span></h2>
+                <div class="w-20 h-1 bg-gradient-to-r from-primary to-secondary mx-auto rounded-full"></div>
+                <p class="text-gray-400 mt-4 max-w-2xl mx-auto text-lg">Unraveling the logic behind the person.</p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                
+                <div class="glass-card p-8 rounded-3xl relative" data-aos="fade-right" data-tilt data-tilt-max="3" data-tilt-speed="400" data-tilt-glare data-tilt-max-glare="0.2">
+                    <i class="fas fa-quote-left text-5xl text-primary opacity-10 absolute top-6 left-6"></i>
+                    
+                    <h3 class="text-2xl font-bold text-white mb-4">Hello, I'm Vraj! 👋</h3>
+                    
+                    <p class="text-gray-300 leading-relaxed mb-6 text-base md:text-lg">
+                        I am a dedicated <strong class="text-primary">Computer Science Student</strong> driven by the desire to turn complex problems into elegant solutions. My journey started with curiosity and simple HTML, evolving into a passion for architecting robust <strong class="text-white">Full-Stack Applications</strong>.
+                    </p>
+                    <p class="text-gray-300 leading-relaxed text-base md:text-lg">
+                        Coding isn't just about syntax to me; it's about <strong class="text-secondary">impact</strong>. Whether I'm designing intuitive UIs in Figma or optimizing backend logic in Python, I strive for excellence and efficiency.
+                    </p>
+
+                    <div class="mt-8 flex flex-wrap gap-6 pt-6 border-t border-white/10">
+                        <div class="flex items-center gap-3 group">
+                            <div class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-black transition-all">
+                                <i class="fas fa-map-marker-alt"></i>
+                            </div>
+                            <div>
+                                <p class="text-xs text-gray-500 uppercase tracking-wide">Location</p>
+                                <span class="text-sm text-gray-200">Gujarat, India</span>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-3 group">
+                            <div class="w-10 h-10 rounded-full bg-secondary/10 flex items-center justify-center text-secondary group-hover:bg-secondary group-hover:text-white transition-all">
+                                <i class="fas fa-envelope"></i>
+                            </div>
+                            <div>
+                                <p class="text-xs text-gray-500 uppercase tracking-wide">Email</p>
+                                <span class="text-sm text-gray-200">sevakvraj2020@gmail.com</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-5" data-aos="fade-left">
+                    
+                    <div class="glass-card p-6 rounded-2xl text-center group cursor-pointer" data-tilt data-tilt-max="10" data-tilt-scale="1.05">
+                        <div class="h-16 flex items-center justify-center mb-2">
+                            <lord-icon
+                                src="https://cdn.lordicon.com/qhgmphtg.json"
+                                trigger="hover"
+                                colors="primary:#00d4ff,secondary:#ffffff"
+                                style="width:60px;height:60px">
+                            </lord-icon>
+                        </div>
+                        <h3 class="font-bold text-xl text-white group-hover:text-primary transition-colors">Web Dev</h3>
+                        <p class="text-xs text-gray-400 mt-2 group-hover:text-gray-300">React, Tailwind, Modern UI</p>
+                    </div>
+
+                    <div class="glass-card p-6 rounded-2xl text-center group cursor-pointer" data-tilt data-tilt-max="10" data-tilt-scale="1.05">
+                        <div class="h-16 flex items-center justify-center mb-2">
+                             <lord-icon
+                                src="https://cdn.lordicon.com/tftaqjwp.json"
+                                trigger="hover"
+                                colors="primary:#ff007a,secondary:#ffffff"
+                                style="width:60px;height:60px">
+                            </lord-icon>
+                        </div>
+                        <h3 class="font-bold text-xl text-white group-hover:text-secondary transition-colors">App Dev</h3>
+                        <p class="text-xs text-gray-400 mt-2 group-hover:text-gray-300">Android & Cross-Platform</p>
+                    </div>
+
+                    <div class="glass-card p-6 rounded-2xl text-center group cursor-pointer" data-tilt data-tilt-max="10" data-tilt-scale="1.05">
+                        <div class="h-16 flex items-center justify-center mb-2">
+                             <lord-icon
+                                src="https://cdn.lordicon.com/wzwygmng.json"
+                                trigger="hover"
+                                colors="primary:#a855f7,secondary:#ffffff"
+                                style="width:60px;height:60px">
+                            </lord-icon>
+                        </div>
+                        <h3 class="font-bold text-xl text-white group-hover:text-purple-500 transition-colors">UI/UX Design</h3>
+                        <p class="text-xs text-gray-400 mt-2 group-hover:text-gray-300">Figma & Prototyping</p>
+                    </div>
+
+                    <div class="glass-card p-6 rounded-2xl text-center group cursor-pointer" data-tilt data-tilt-max="10" data-tilt-scale="1.05">
+                        <div class="h-16 flex items-center justify-center mb-2">
+                             <lord-icon
+                                src="https://cdn.lordicon.com/qjuahhae.json"
+                                trigger="hover"
+                                colors="primary:#22c55e,secondary:#ffffff"
+                                style="width:60px;height:60px">
+                            </lord-icon>
+                        </div>
+                        <h3 class="font-bold text-xl text-white group-hover:text-green-500 transition-colors">Backend</h3>
+                        <p class="text-xs text-gray-400 mt-2 group-hover:text-gray-300">NodeJS, Python, SQL</p>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="relative py-12 border-t border-gray-900 text-center text-gray-500 text-sm overflow-hidden group">
+        <div class="absolute inset-0 z-0">
+            <img src="images/profile.jpg" alt="Footer Background" class="w-full h-full object-cover opacity-10 blur-sm grayscale group-hover:grayscale-0 group-hover:opacity-20 transition-all duration-700">
+            <div class="absolute inset-0 bg-gradient-to-t from-black via-black/90 to-black/80"></div>
+        </div>
+        <div class="relative z-10">
+            <div class="space-y-2" data-aos="fade-up" data-aos-offset="0">
+                <p>&copy; 2025 Vraj Sevak. All rights reserved.</p>
+                <p class="text-xs text-gray-600">
+                    Designed & Developed by <span class="text-primary font-bold hover:text-white transition-colors cursor-default">Vraj Sevak</span>
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.8.0/vanilla-tilt.min.js"></script>
+    
+    <script src="js/script.js"></script>
+    <script>
+        AOS.init({
+            duration: 1000,
+            once: true,
+        });
+
+        // Initialize Tilt manually if needed (though data-tilt attribute usually handles it)
+        VanillaTilt.init(document.querySelectorAll("[data-tilt]"), {
+            max: 25,
+            speed: 400,
+            glare: true,
+            "max-glare": 0.5,
+        });
+    </script>
+</body>
+</html>

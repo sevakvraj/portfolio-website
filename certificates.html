@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Certificates | Vraj Sevak</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <script src="https://cdn.lordicon.com/lordicon.js"></script>
+    
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <script>
+        tailwind.config = {
+            theme: { extend: { fontFamily: { sans: ['Poppins', 'sans-serif'] }, colors: { primary: '#00d4ff', secondary: '#ff007a', dark: '#0a0a0a', darker: '#050505', card: 'rgba(255, 255, 255, 0.05)' } } }
+        }
+    </script>
+    <style>
+        /* Tab Animation */
+        .tab-btn { transition: all 0.3s ease; }
+        .tab-btn.active { background-color: #00d4ff; color: #000; font-weight: 700; box-shadow: 0 0 15px rgba(0, 212, 255, 0.4); }
+        .tab-btn:not(.active) { background-color: rgba(255,255,255,0.05); color: #9ca3af; }
+        .tab-btn:not(.active):hover { background-color: rgba(255,255,255,0.1); color: #fff; }
+        
+        /* Button Icon Hover Effect */
+        .tab-btn:hover lord-icon,
+        .view-btn:hover lord-icon {
+            transform: scale(1.1);
+            transition: transform 0.2s ease;
+        }
+
+        /* Modal Animation */
+        #image-modal { transition: opacity 0.3s ease, visibility 0.3s ease; }
+        #image-modal.hidden-modal { opacity: 0; visibility: hidden; pointer-events: none; }
+        #image-modal.visible-modal { opacity: 1; visibility: visible; pointer-events: auto; }
+        
+        /* Image Pop Effect */
+        #modal-img { transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        .visible-modal #modal-img { transform: scale(1); }
+        .hidden-modal #modal-img { transform: scale(0.5); }
+    </style>
+</head>
+<body class="antialiased">
+    <canvas id="particles-canvas"></canvas>
+
+    <div id="image-modal" class="hidden-modal fixed inset-0 z-[100] flex items-center justify-center bg-black/90 backdrop-blur-md p-4">
+        <button onclick="closeModal()" class="absolute top-6 right-6 text-white hover:text-primary text-4xl transition-colors duration-300 z-50 cursor-pointer">
+            <i class="fas fa-times"></i>
+        </button>
+        <div class="relative max-w-5xl w-full max-h-[90vh] flex justify-center items-center">
+            <img id="modal-img" src="" onerror="this.style.display='none'; document.getElementById('error-msg').classList.remove('hidden');" alt="Certificate View" class="max-h-[85vh] max-w-full rounded-lg shadow-[0_0_50px_rgba(0,212,255,0.3)] border-2 border-gray-700 bg-gray-800 object-contain">
+            
+            <div id="error-msg" class="hidden text-center text-white p-10 border border-red-500 rounded-lg bg-red-900/20">
+                <lord-icon
+                    src="https://cdn.lordicon.com/wdqwerki.json"
+                    trigger="loop"
+                    colors="primary:#ef4444,secondary:#ffffff"
+                    style="width:80px;height:80px">
+                </lord-icon>
+                <h3 class="text-xl font-bold mt-4">Image Not Found</h3>
+                <p class="text-gray-300 mt-2">Ensure image is in 'images/' folder with correct name.</p>
+            </div>
+        </div>
+    </div>
+
+    <nav class="fixed w-full z-50 glass-nav transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                <a href="index.html" class="flex-shrink-0 cursor-pointer">
+                    <span class="text-2xl font-bold tracking-wider text-white">PORT<span class="text-primary">FOLIO</span></span>
+                </a>
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-8">
+                        <a href="index.html" class="hover:text-primary transition-colors duration-300 px-3 py-2 rounded-md text-sm font-medium">Home</a>
+                        <a href="about.html" class="hover:text-primary transition-colors duration-300 px-3 py-2 rounded-md text-sm font-medium">About</a>
+                        <a href="skills.html" class="hover:text-primary transition-colors duration-300 px-3 py-2 rounded-md text-sm font-medium">Skills</a>
+                        <a href="certificates.html" class="text-primary px-3 py-2 rounded-md text-sm font-medium">Certificates</a>
+                        <a href="education.html" class="hover:text-primary transition-colors duration-300 px-3 py-2 rounded-md text-sm font-medium">Education</a>
+                        <a href="projects.html" class="hover:text-primary transition-colors duration-300 px-3 py-2 rounded-md text-sm font-medium">Projects</a>
+                        <a href="contact.html" class="bg-primary hover:bg-cyan-400 text-black px-4 py-2 rounded-full transition-all duration-300 font-bold">Contact Me</a>
+                    </div>
+                </div>
+                <div class="-mr-2 flex md:hidden">
+                    <button id="mobile-menu-btn" class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-gray-700 focus:outline-none">
+                        <i class="fas fa-bars text-xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="md:hidden hidden bg-black/95 backdrop-blur-md absolute w-full border-b border-gray-800" id="mobile-menu">
+            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3 text-center">
+                <a href="index.html" class="text-gray-300 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Home</a>
+                <a href="about.html" class="hover:text-primary transition-colors duration-300 px-3 py-2 rounded-md text-sm font-medium">About</a>
+                <a href="skills.html" class="text-gray-300 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Skills</a>
+                <a href="certificates.html" class="text-white block px-3 py-2 rounded-md text-base font-medium">Certificates</a>
+                <a href="education.html" class="text-gray-300 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Education</a>
+                <a href="projects.html" class="text-gray-300 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Projects</a>
+                <a href="contact.html" class="text-primary font-bold block px-3 py-2 rounded-md text-base">Contact</a>
+            </div>
+        </div>
+    </nav>
+
+    <section id="certificates" class="min-h-screen py-20 bg-black/30 pt-32">
+        <div class="max-w-6xl mx-auto px-6">
+            
+            <div class="text-center mb-12" data-aos="fade-up">
+                <div class="flex items-center justify-center gap-4 mb-4">
+                    <h2 class="text-3xl md:text-4xl font-bold">My <span class="text-primary">Certificates</span></h2>
+                    <lord-icon
+                        src="https://cdn.lordicon.com/lupuorrc.json"
+                        trigger="loop"
+                        delay="2000"
+                        colors="primary:#eab308,secondary:#ffffff"
+                        style="width:60px;height:60px">
+                    </lord-icon>
+                </div>
+                <p class="text-gray-400">Explore my technical certifications and achievements.</p>
+            </div>
+
+            <div class="flex justify-center gap-4 mb-12" data-aos="fade-up" data-aos-delay="100">
+                <button onclick="toggleCategory('tech')" id="btn-tech" class="tab-btn active px-6 py-2 rounded-full border border-gray-700 text-sm md:text-base flex items-center gap-2 group">
+                    <lord-icon
+                        src="https://cdn.lordicon.com/qhgmphtg.json"
+                        trigger="hover"
+                        target=".group"
+                        colors="primary:#000000,secondary:#000000"
+                        style="width:28px;height:28px" class="lord-icon-dark">
+                    </lord-icon>
+                    Technical
+                </button>
+                <button onclick="toggleCategory('other')" id="btn-other" class="tab-btn px-6 py-2 rounded-full border border-gray-700 text-sm md:text-base flex items-center gap-2 group">
+                    <lord-icon
+                        src="https://cdn.lordicon.com/uwinmnkh.json"
+                        trigger="hover"
+                        target=".group"
+                        colors="primary:#9ca3af,secondary:#9ca3af"
+                        style="width:28px;height:28px" class="lord-icon-light">
+                    </lord-icon>
+                    Participation & Others
+                </button>
+            </div>
+            
+            <div id="tech-certs" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                
+                <div class="glass rounded-xl overflow-hidden group hover:border-primary border border-transparent transition-all duration-300" data-aos="fade-up">
+                    <div class="h-48 bg-gray-800 relative overflow-hidden">
+                        <img src="images/c1.png" onerror="this.src='https://via.placeholder.com/600x400?text=Tata+Cyber'" alt="Certificate" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                        <div class="absolute inset-0 bg-black/40 group-hover:bg-black/20 transition-all"></div>
+                        <div class="absolute top-2 right-2 bg-blue-600 text-white text-xs font-bold px-2 py-1 rounded">Job Sim</div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-lg font-bold text-white mb-1">Cybersecurity Analyst</h3>
+                        <p class="text-primary text-sm mb-4">Tata (Forage) • Aug 2025</p>
+                        <div class="h-px bg-gray-700 mb-4"></div>
+                        <button onclick="showCertificate('images/c1.png')" class="view-btn w-full text-center bg-gray-800 hover:bg-primary hover:text-black text-white py-2 rounded-lg transition-colors duration-300 text-sm font-semibold cursor-pointer group flex items-center justify-center gap-2">
+                            <span>View Credential</span>
+                            <lord-icon
+                                src="https://cdn.lordicon.com/kkvxgpti.json"
+                                trigger="hover"
+                                target=".group"
+                                colors="primary:#ffffff,secondary:#00d4ff"
+                                style="width:24px;height:24px">
+                            </lord-icon>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="glass rounded-xl overflow-hidden group hover:border-primary border border-transparent transition-all duration-300" data-aos="fade-up" data-aos-delay="100">
+                    <div class="h-48 bg-gray-800 relative overflow-hidden">
+                        <img src="images/c2.png" onerror="this.src='https://via.placeholder.com/600x400?text=Deloitte+Cyber'" alt="Certificate" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                        <div class="absolute inset-0 bg-black/40 group-hover:bg-black/20 transition-all"></div>
+                        <div class="absolute top-2 right-2 bg-green-600 text-white text-xs font-bold px-2 py-1 rounded">Job Sim</div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-lg font-bold text-white mb-1">Cyber Job Simulation</h3>
+                        <p class="text-primary text-sm mb-4">Deloitte (Forage) • July 2025</p>
+                        <div class="h-px bg-gray-700 mb-4"></div>
+                        <button onclick="showCertificate('images/c2.png')" class="view-btn w-full text-center bg-gray-800 hover:bg-primary hover:text-black text-white py-2 rounded-lg transition-colors duration-300 text-sm font-semibold cursor-pointer group flex items-center justify-center gap-2">
+                             <span>View Credential</span>
+                            <lord-icon
+                                src="https://cdn.lordicon.com/kkvxgpti.json"
+                                trigger="hover"
+                                target=".group"
+                                colors="primary:#ffffff,secondary:#00d4ff"
+                                style="width:24px;height:24px">
+                            </lord-icon>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="glass rounded-xl overflow-hidden group hover:border-primary border border-transparent transition-all duration-300" data-aos="fade-up" data-aos-delay="200">
+                    <div class="h-48 bg-gray-800 relative overflow-hidden">
+                        <img src="images/c3.jpg" onerror="this.src='https://via.placeholder.com/600x400?text=Java+Cert'" alt="Certificate" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                        <div class="absolute inset-0 bg-black/40 group-hover:bg-black/20 transition-all"></div>
+                        <div class="absolute top-2 right-2 bg-yellow-500 text-black text-xs font-bold px-2 py-1 rounded">Course</div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-lg font-bold text-white mb-1">Java Programming (CJP)</h3>
+                        <p class="text-primary text-sm mb-4">AIM Computers • Apr 2023</p>
+                        <div class="h-px bg-gray-700 mb-4"></div>
+                        <button onclick="showCertificate('images/c3.jpg')" class="view-btn w-full text-center bg-gray-800 hover:bg-primary hover:text-black text-white py-2 rounded-lg transition-colors duration-300 text-sm font-semibold cursor-pointer group flex items-center justify-center gap-2">
+                             <span>View Credential</span>
+                            <lord-icon
+                                src="https://cdn.lordicon.com/kkvxgpti.json"
+                                trigger="hover"
+                                target=".group"
+                                colors="primary:#ffffff,secondary:#00d4ff"
+                                style="width:24px;height:24px">
+                            </lord-icon>
+                        </button>
+                    </div>
+                </div>
+
+                 <div class="glass rounded-xl overflow-hidden group hover:border-primary border border-transparent transition-all duration-300" data-aos="fade-up" data-aos-delay="300">
+                    <div class="h-48 bg-gray-800 relative overflow-hidden">
+                        <img src="images/cnt4.jpg" onerror="this.src='https://via.placeholder.com/600x400?text=C+Programming'" alt="Certificate" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                        <div class="absolute inset-0 bg-black/40 group-hover:bg-black/20 transition-all"></div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-lg font-bold text-white mb-1">C Programming (CCP)</h3>
+                        <p class="text-primary text-sm mb-4">AIM Computers • Jan 2023</p>
+                        <div class="h-px bg-gray-700 mb-4"></div>
+                        <button onclick="showCertificate('images/cnt4.jpg')" class="view-btn w-full text-center bg-gray-800 hover:bg-primary hover:text-black text-white py-2 rounded-lg transition-colors duration-300 text-sm font-semibold cursor-pointer group flex items-center justify-center gap-2">
+                             <span>View Credential</span>
+                            <lord-icon
+                                src="https://cdn.lordicon.com/kkvxgpti.json"
+                                trigger="hover"
+                                target=".group"
+                                colors="primary:#ffffff,secondary:#00d4ff"
+                                style="width:24px;height:24px">
+                            </lord-icon>
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+
+            <div id="other-certs" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 hidden">
+                
+                <div class="glass rounded-xl overflow-hidden group hover:border-secondary border border-transparent transition-all duration-300">
+                    <div class="h-48 bg-gray-800 relative overflow-hidden">
+                        <img src="images/c4.jpg" onerror="this.src='https://via.placeholder.com/600x400?text=Kabaddi+Winner'" alt="Certificate" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                        <div class="absolute inset-0 bg-black/40 group-hover:bg-black/20 transition-all"></div>
+                        <div class="absolute top-2 right-2 bg-yellow-400 text-black text-xs font-bold px-2 py-1 rounded border border-yellow-600">🥇 Winner</div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-lg font-bold text-white mb-1">Khel Mahakumbh (Kabaddi)</h3>
+                        <p class="text-secondary text-sm mb-4">Govt of Gujarat • 2017</p>
+                        <div class="h-px bg-gray-700 mb-4"></div>
+                        <button onclick="showCertificate('images/c4.jpg')" class="view-btn w-full text-center bg-gray-800 hover:bg-secondary hover:text-white text-white py-2 rounded-lg transition-colors duration-300 text-sm font-semibold cursor-pointer group flex items-center justify-center gap-2">
+                             <span>View Credential</span>
+                            <lord-icon
+                                src="https://cdn.lordicon.com/kkvxgpti.json"
+                                trigger="hover"
+                                target=".group"
+                                colors="primary:#ffffff,secondary:#ff007a"
+                                style="width:24px;height:24px">
+                            </lord-icon>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="glass rounded-xl overflow-hidden group hover:border-secondary border border-transparent transition-all duration-300">
+                    <div class="h-48 bg-gray-800 relative overflow-hidden">
+                        <img src="images/cnt3.jpg" onerror="this.src='https://via.placeholder.com/600x400?text=NCC'" alt="Certificate" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                        <div class="absolute inset-0 bg-black/40 group-hover:bg-black/20 transition-all"></div>
+                        <div class="absolute top-2 right-2 bg-purple-500 text-white text-xs font-bold px-2 py-1 rounded">Cadet</div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-lg font-bold text-white mb-1">NCC Training Camp</h3>
+                        <p class="text-secondary text-sm mb-4">28 GUJ BN NCC • 2021</p>
+                        <div class="h-px bg-gray-700 mb-4"></div>
+                        <button onclick="showCertificate('images/cnt3.jpg')" class="view-btn w-full text-center bg-gray-800 hover:bg-secondary hover:text-white text-white py-2 rounded-lg transition-colors duration-300 text-sm font-semibold cursor-pointer group flex items-center justify-center gap-2">
+                             <span>View Credential</span>
+                            <lord-icon
+                                src="https://cdn.lordicon.com/kkvxgpti.json"
+                                trigger="hover"
+                                target=".group"
+                                colors="primary:#ffffff,secondary:#ff007a"
+                                style="width:24px;height:24px">
+                            </lord-icon>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="glass rounded-xl overflow-hidden group hover:border-secondary border border-transparent transition-all duration-300">
+                    <div class="h-48 bg-gray-800 relative overflow-hidden">
+                        <img src="images/cnt2.jpg" onerror="this.src='https://via.placeholder.com/600x400?text=Adventure'" alt="Certificate" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                        <div class="absolute inset-0 bg-black/40 group-hover:bg-black/20 transition-all"></div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-lg font-bold text-white mb-1">District Adventure Camp</h3>
+                        <p class="text-secondary text-sm mb-4">Fit India • Oct 2021</p>
+                        <div class="h-px bg-gray-700 mb-4"></div>
+                        <button onclick="showCertificate('images/cnt2.jpg')" class="view-btn w-full text-center bg-gray-800 hover:bg-secondary hover:text-white text-white py-2 rounded-lg transition-colors duration-300 text-sm font-semibold cursor-pointer group flex items-center justify-center gap-2">
+                             <span>View Credential</span>
+                            <lord-icon
+                                src="https://cdn.lordicon.com/kkvxgpti.json"
+                                trigger="hover"
+                                target=".group"
+                                colors="primary:#ffffff,secondary:#ff007a"
+                                style="width:24px;height:24px">
+                            </lord-icon>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="glass rounded-xl overflow-hidden group hover:border-secondary border border-transparent transition-all duration-300">
+                    <div class="h-48 bg-gray-800 relative overflow-hidden">
+                        <img src="images/cnt1.jpg" onerror="this.src='https://via.placeholder.com/600x400?text=Kabaddi'" alt="Certificate" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                        <div class="absolute inset-0 bg-black/40 group-hover:bg-black/20 transition-all"></div>
+                        <div class="absolute top-2 right-2 bg-gray-400 text-black text-xs font-bold px-2 py-1 rounded">🥈 2nd</div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-lg font-bold text-white mb-1">Kabaddi Competition</h3>
+                        <p class="text-secondary text-sm mb-4">Vyayam Mandir • 2017</p>
+                        <div class="h-px bg-gray-700 mb-4"></div>
+                        <button onclick="showCertificate('images/cnt1.jpg')" class="view-btn w-full text-center bg-gray-800 hover:bg-secondary hover:text-white text-white py-2 rounded-lg transition-colors duration-300 text-sm font-semibold cursor-pointer group flex items-center justify-center gap-2">
+                             <span>View Credential</span>
+                            <lord-icon
+                                src="https://cdn.lordicon.com/kkvxgpti.json"
+                                trigger="hover"
+                                target=".group"
+                                colors="primary:#ffffff,secondary:#ff007a"
+                                style="width:24px;height:24px">
+                            </lord-icon>
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+   <footer class="relative py-12 border-t border-gray-900 text-center text-gray-500 text-sm overflow-hidden group">
+    
+    <div class="absolute inset-0 z-0">
+        <img src="images/profile.jpg" alt="Footer Background" class="w-full h-full object-cover opacity-10 blur-sm grayscale group-hover:grayscale-0 group-hover:opacity-20 transition-all duration-700">
+        <div class="absolute inset-0 bg-gradient-to-t from-black via-black/90 to-black/80"></div>
+    </div>
+
+    <div class="relative z-10">
+        
+        <style>
+            @keyframes scroll { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+            .marquee-content { display: flex; animation: scroll 20s linear infinite; }
+            .marquee-wrapper:hover .marquee-content { animation-play-state: paused; }
+        </style>
+
+        <div class="marquee-wrapper overflow-hidden bg-transparent py-10 mb-6">
+            <div class="marquee-content w-[200%]">
+                <div class="flex justify-around w-1/2 text-4xl text-gray-600">
+                    <i class="fab fa-html5 hover:text-orange-500 transition-all duration-300 hover:scale-150 hover:-translate-y-2 hover:drop-shadow-[0_0_15px_rgba(249,115,22,0.8)] cursor-pointer"></i>
+                    <i class="fab fa-css3-alt hover:text-blue-500 transition-all duration-300 hover:scale-150 hover:-translate-y-2 hover:drop-shadow-[0_0_15px_rgba(59,130,246,0.8)] cursor-pointer"></i>
+                    <i class="fab fa-js hover:text-yellow-400 transition-all duration-300 hover:scale-150 hover:-translate-y-2 hover:drop-shadow-[0_0_15px_rgba(250,204,21,0.8)] cursor-pointer"></i>
+                    <i class="fab fa-react hover:text-cyan-400 transition-all duration-300 hover:scale-150 hover:-translate-y-2 hover:drop-shadow-[0_0_15px_rgba(34,211,238,0.8)] cursor-pointer"></i>
+                    <i class="fab fa-python hover:text-yellow-300 transition-all duration-300 hover:scale-150 hover:-translate-y-2 hover:drop-shadow-[0_0_15px_rgba(253,224,71,0.8)] cursor-pointer"></i>
+                    <i class="fab fa-node hover:text-green-500 transition-all duration-300 hover:scale-150 hover:-translate-y-2 hover:drop-shadow-[0_0_15px_rgba(34,197,94,0.8)] cursor-pointer"></i>
+                    <i class="fas fa-database hover:text-white transition-all duration-300 hover:scale-150 hover:-translate-y-2 hover:drop-shadow-[0_0_15px_rgba(255,255,255,0.8)] cursor-pointer"></i>
+                </div>
+                <div class="flex justify-around w-1/2 text-4xl text-gray-600">
+                    <i class="fab fa-html5 hover:text-orange-500 transition-all duration-300 hover:scale-150 hover:-translate-y-2 hover:drop-shadow-[0_0_15px_rgba(249,115,22,0.8)] cursor-pointer"></i>
+                    <i class="fab fa-css3-alt hover:text-blue-500 transition-all duration-300 hover:scale-150 hover:-translate-y-2 hover:drop-shadow-[0_0_15px_rgba(59,130,246,0.8)] cursor-pointer"></i>
+                    <i class="fab fa-js hover:text-yellow-400 transition-all duration-300 hover:scale-150 hover:-translate-y-2 hover:drop-shadow-[0_0_15px_rgba(250,204,21,0.8)] cursor-pointer"></i>
+                    <i class="fab fa-react hover:text-cyan-400 transition-all duration-300 hover:scale-150 hover:-translate-y-2 hover:drop-shadow-[0_0_15px_rgba(34,211,238,0.8)] cursor-pointer"></i>
+                    <i class="fab fa-python hover:text-yellow-300 transition-all duration-300 hover:scale-150 hover:-translate-y-2 hover:drop-shadow-[0_0_15px_rgba(253,224,71,0.8)] cursor-pointer"></i>
+                    <i class="fab fa-node hover:text-green-500 transition-all duration-300 hover:scale-150 hover:-translate-y-2 hover:drop-shadow-[0_0_15px_rgba(34,197,94,0.8)] cursor-pointer"></i>
+                    <i class="fas fa-database hover:text-white transition-all duration-300 hover:scale-150 hover:-translate-y-2 hover:drop-shadow-[0_0_15px_rgba(255,255,255,0.8)] cursor-pointer"></i>
+                </div>
+            </div>
+        </div>
+
+        <div class="space-y-2" data-aos="fade-up" data-aos-offset="0">
+            <p>&copy; 2025 Vraj Sevak. All rights reserved.</p>
+            <p class="text-xs text-gray-600">
+                Designed & Developed by <span class="text-primary font-bold hover:text-white transition-colors cursor-default">Vraj Sevak</span>
+            </p>
+        </div>
+    </div>
+</footer>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="js/script.js"></script>
+    
+    <script>
+        // AOS Init
+        AOS.init({
+            duration: 1000,
+            once: true,
+        });
+
+        // --- NEW: MODAL AND BLAST ANIMATION LOGIC --- //
+
+        function showCertificate(imageSrc) {
+            const modal = document.getElementById('image-modal');
+            const modalImg = document.getElementById('modal-img');
+            const errorMsg = document.getElementById('error-msg');
+            
+            // Reset state
+            modalImg.style.display = 'block';
+            errorMsg.classList.add('hidden');
+
+            // Set the image source
+            modalImg.src = imageSrc;
+            
+            // Show the modal
+            modal.classList.remove('hidden-modal');
+            modal.classList.add('visible-modal');
+
+            // Trigger the Confetti Blast!
+            fireBlast();
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('image-modal');
+            modal.classList.remove('visible-modal');
+            modal.classList.add('hidden-modal');
+            
+            // Clear src after animation to prevent flickering next time
+            setTimeout(() => {
+                document.getElementById('modal-img').src = '';
+            }, 300);
+        }
+
+        // Close modal if clicking outside the image
+        document.getElementById('image-modal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeModal();
+            }
+        });
+
+        // The Blasting Animation Configuration
+        function fireBlast() {
+            var count = 200;
+            var defaults = {
+                origin: { y: 0.7 }
+            };
+
+            function fire(particleRatio, opts) {
+                confetti(Object.assign({}, defaults, opts, {
+                    particleCount: Math.floor(count * particleRatio)
+                }));
+            }
+
+            fire(0.25, { spread: 26, startVelocity: 55, });
+            fire(0.2, { spread: 60, });
+            fire(0.35, { spread: 100, decay: 0.91, scalar: 0.8 });
+            fire(0.1, { spread: 120, startVelocity: 25, decay: 0.92, scalar: 1.2 });
+            fire(0.1, { spread: 120, startVelocity: 45, });
+        }
+
+        // --- END NEW LOGIC --- //
+
+        function toggleCategory(category) {
+            const techGrid = document.getElementById('tech-certs');
+            const otherGrid = document.getElementById('other-certs');
+            const btnTech = document.getElementById('btn-tech');
+            const btnOther = document.getElementById('btn-other');
+
+            if (category === 'tech') {
+                techGrid.classList.remove('hidden');
+                otherGrid.classList.add('hidden');
+                
+                // Update Button Styles
+                btnTech.classList.add('active');
+                btnOther.classList.remove('active');
+                
+                // Colorize Lordicons logic (optional enhancement)
+                btnTech.querySelector('lord-icon').setAttribute('colors', 'primary:#000000,secondary:#000000');
+                btnOther.querySelector('lord-icon').setAttribute('colors', 'primary:#9ca3af,secondary:#9ca3af');
+
+                // Re-trigger AOS for smooth appearance
+                setTimeout(() => AOS.refresh(), 100);
+            } else {
+                techGrid.classList.add('hidden');
+                otherGrid.classList.remove('hidden');
+                
+                // Update Button Styles
+                btnTech.classList.remove('active');
+                btnOther.classList.add('active');
+
+                // Colorize Lordicons logic
+                btnTech.querySelector('lord-icon').setAttribute('colors', 'primary:#9ca3af,secondary:#9ca3af');
+                btnOther.querySelector('lord-icon').setAttribute('colors', 'primary:#000000,secondary:#000000');
+                
+                // Re-trigger AOS
+                setTimeout(() => AOS.refresh(), 100);
+            }
+        }
+    </script>
+</body>
+</html>

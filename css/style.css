@@ -1,0 +1,616 @@
+/* =========================================
+   1. GLOBAL STYLES & RESET
+   ========================================= */
+body {
+    background-color: #050505;
+    color: #ffffff;
+    overflow-x: hidden; 
+}
+
+/* Scrollbar Styling */
+::-webkit-scrollbar {
+    width: 8px;
+}
+::-webkit-scrollbar-track {
+    background: #0a0a0a;
+}
+::-webkit-scrollbar-thumb {
+    background: #00d4ff;
+    border-radius: 4px;
+}
+
+/* =========================================
+   2. BACKGROUNDS & UTILITIES
+   ========================================= */
+
+#particles-canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1; 
+    background: radial-gradient(circle at center, #1a1a2e 0%, #000000 100%);
+}
+
+.glass {
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.glass-nav {
+    background: rgba(5, 5, 5, 0.8);
+    backdrop-filter: blur(15px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.text-gradient {
+    background: linear-gradient(to right, #00d4ff, #ff007a);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+/* =========================================
+   3. ANIMATIONS
+   ========================================= */
+
+.skill-fill {
+    width: 0;
+    transition: width 1.5s ease-in-out;
+}
+
+.cursor {
+    display: inline-block;
+    width: 3px;
+    background-color: #00d4ff;
+    animation: blink 1s infinite;
+}
+@keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+}
+
+.float {
+    animation: floating 3s ease-in-out infinite;
+}
+@keyframes floating {
+    0% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+    100% { transform: translateY(0px); }
+}
+
+/* =========================================
+   4. 3D TIMELINE ANIMATION 
+   ========================================= */
+
+.timeline-dot {
+    transition: all 0.3s ease;
+    z-index: 2; 
+    position: relative;
+    background-color: #000; 
+}
+
+/* THICK 3D TUBE LINE */
+.timeline-3d {
+    position: absolute;
+    left: 50%;
+    top: 0;
+    bottom: 0;
+    width: 12px; 
+    transform: translateX(-50%);
+    background: linear-gradient(90deg, #050505 0%, #333 45%, #555 50%, #333 55%, #050505 100%);
+    border-radius: 99px;
+    box-shadow: 0 0 15px rgba(0,0,0,0.8);
+    overflow: visible; 
+    z-index: 0;
+}
+
+/* SPIRAL TEXTURE */
+.timeline-3d::after {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: repeating-linear-gradient(
+        -45deg,
+        transparent 0px,
+        transparent 10px,
+        rgba(0, 212, 255, 0.1) 10px,
+        rgba(0, 212, 255, 0.2) 20px
+    );
+    border-radius: 99px;
+    animation: scrollTexture 2s linear infinite; 
+    background-size: 20px 20px;
+    opacity: 0.6;
+}
+
+@keyframes scrollTexture {
+    from { background-position: 0 0; }
+    to { background-position: 0 40px; }
+}
+
+/* GLOWING BEAM */
+.timeline-3d::before {
+    content: '';
+    position: absolute;
+    top: -150px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 140%; 
+    height: 150px; 
+    background: linear-gradient(to bottom, transparent, #00d4ff, #ff007a, transparent);
+    filter: blur(6px); 
+    box-shadow: 
+        0 0 20px 2px rgba(0, 212, 255, 0.6),
+        0 0 50px 10px rgba(255, 0, 122, 0.4); 
+    border-radius: 50%;
+    animation: travelTime 8s ease-in-out infinite; 
+    z-index: 1;
+}
+
+@keyframes travelTime {
+    0% { top: -150px; opacity: 0; }
+    10% { opacity: 1; }
+    90% { opacity: 1; }
+    100% { top: 105%; opacity: 0; }
+}
+
+/* =========================================
+   5. CINEMATIC "LINES" SPLASH SCREEN
+   ========================================= */
+
+#splash-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #050505; /* Matches body bg */
+    z-index: 99999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    transition: opacity 0.8s ease-out; 
+}
+
+.splash-content {
+    text-align: center;
+    /* The Zoom Effect that creates the "lines" look at the end */
+    animation: zoomAndBreak 4s cubic-bezier(0.7, 0, 0.3, 1) forwards;
+    transform-origin: center;
+}
+
+.cinematic-logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 7rem;
+    color: #00d4ff; /* THEME CYAN */
+    letter-spacing: 5px;
+    margin: 0;
+    line-height: 1;
+    /* Initial Glow */
+    text-shadow: 0 0 30px rgba(0, 212, 255, 0.6);
+    white-space: nowrap;
+}
+
+.cinematic-subtitle {
+    font-family: 'Poppins', sans-serif;
+    color: #ffffff;
+    font-size: 1.2rem;
+    letter-spacing: 15px;
+    margin-top: 15px;
+    opacity: 0;
+    text-transform: uppercase;
+    animation: fadeInSubtitle 1.5s ease 0.5s forwards;
+}
+
+/* --- THE "BREAKING LINES" ANIMATION --- */
+@keyframes zoomAndBreak {
+    0% {
+        transform: scale(0.5);
+        opacity: 0;
+        filter: blur(10px);
+    }
+    15% {
+        transform: scale(1);
+        opacity: 1;
+        filter: blur(0px);
+    }
+    50% {
+        transform: scale(1.1); /* Hover phase */
+        opacity: 1;
+    }
+    100% {
+        /* This combination creates the "Lines" effect:
+           1. Huge Scale (Zoom past camera)
+           2. ScaleY > ScaleX (Stretches text vertically into lines)
+           3. Letter spacing (Breaks letters apart)
+           4. Blur (Motion blur speed effect)
+        */
+        transform: scale(20) scaleY(5); 
+        letter-spacing: 50px;
+        opacity: 0;
+        filter: blur(10px);
+    }
+}
+
+@keyframes fadeInSubtitle {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 768px) {
+    .cinematic-logo { font-size: 4rem; }
+    .cinematic-subtitle { font-size: 0.8rem; letter-spacing: 8px; }
+}
+
+#netflix-intro {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #000;
+    z-index: 99999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    transition: opacity 0.5s ease-out;
+}
+
+/* --- THE "V" LOGO CONTAINER --- */
+.logo-animation-container {
+    position: relative;
+    width: 200px;
+    height: 300px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* Zoom out effect for the logo */
+    animation: zoomOutLogo 3.5s ease-in forwards;
+}
+
+/* The Ribbon "V" Structure */
+.ribbon-v {
+    position: relative;
+    width: 150px;
+    height: 250px;
+}
+
+/* Common style for the ribbon legs */
+.ribbon-left, .ribbon-right {
+    position: absolute;
+    width: 40px;
+    height: 0%; /* Start height 0 for unfolding animation */
+    background: #00d4ff; /* CYAN THEME */
+    bottom: 0;
+    transform-origin: bottom;
+    box-shadow: 0 0 30px rgba(0, 212, 255, 0.5); /* Glow */
+}
+
+/* Left Leg of V */
+.ribbon-left {
+    left: 0;
+    transform: skewX(-20deg);
+    background: linear-gradient(to bottom, #00d4ff, #0088cc);
+    animation: unfoldLeft 0.8s ease-out 0.5s forwards; /* Delay start slightly */
+}
+
+/* Right Leg of V */
+.ribbon-right {
+    right: 0;
+    transform: skewX(20deg);
+    background: linear-gradient(to bottom, #00aaff, #005577); /* Slightly darker for depth */
+    animation: unfoldRight 0.8s ease-out 0.5s forwards;
+}
+
+/* Shadow to create the folding depth effect */
+.ribbon-shadow {
+    position: absolute;
+    bottom: 0;
+    left: 45%;
+    width: 20px;
+    height: 0%;
+    background: rgba(0,0,0,0.5);
+    transform: skewX(-20deg);
+    z-index: 10;
+    filter: blur(4px);
+    animation: unfoldShadow 0.8s ease-out 0.5s forwards;
+}
+
+/* --- THE "LIGHT BEAMS" (BARCODE) EFFECT --- */
+.beam-container {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    pointer-events: none;
+}
+
+.beam {
+    position: absolute;
+    width: 10px;
+    height: 100vh;
+    background: transparent;
+    opacity: 0;
+}
+
+/* Beams Colors */
+.b1 { background: #00d4ff; left: 20%; animation: hyperDrive 2s ease-in 2.5s forwards; }
+.b2 { background: #ff007a; left: 80%; animation: hyperDrive 2s ease-in 2.6s forwards; }
+.b3 { background: #ffffff; left: 40%; animation: hyperDrive 2s ease-in 2.7s forwards; }
+.b4 { background: #00d4ff; left: 60%; animation: hyperDrive 2s ease-in 2.55s forwards; }
+.b5 { background: #ff007a; left: 30%; width: 20px; animation: hyperDrive 2s ease-in 2.65s forwards; }
+.b6 { background: #00d4ff; left: 70%; width: 5px; animation: hyperDrive 2s ease-in 2.75s forwards; }
+.b7 { background: #ffffff; left: 50%; width: 50px; animation: hyperDriveMain 1.5s ease-in 2.8s forwards; }
+
+/* --- ANIMATION KEYFRAMES --- */
+
+/* Unfolding the Ribbon Legs */
+@keyframes unfoldLeft {
+    0% { height: 0%; }
+    100% { height: 100%; }
+}
+@keyframes unfoldRight {
+    0% { height: 0%; }
+    100% { height: 100%; }
+}
+@keyframes unfoldShadow {
+    0% { height: 0%; opacity: 0; }
+    100% { height: 40%; opacity: 1; }
+}
+
+/* Zooming the Logo out slightly before the explosion */
+@keyframes zoomOutLogo {
+    0% { transform: scale(1); opacity: 1; }
+    70% { transform: scale(0.9); opacity: 1; } /* Tension before snap */
+    100% { transform: scale(15); opacity: 0; } /* Explode towards camera */
+}
+
+/* The Hyper Drive Beam Effect */
+@keyframes hyperDrive {
+    0% { transform: scaleY(0) scaleX(1); opacity: 0; }
+    10% { opacity: 1; }
+    100% { transform: scaleY(2) scaleX(20); opacity: 0; }
+}
+
+@keyframes hyperDriveMain {
+    0% { transform: scaleY(0) scaleX(1); opacity: 0; }
+    50% { opacity: 1; background: white; }
+    100% { transform: scaleY(2) scaleX(100); opacity: 0; background: #00d4ff; }
+}
+.timeline-3d {
+    position: absolute;
+    left: 50%;
+    top: 0;
+    bottom: 0;
+    width: 12px; 
+    transform: translateX(-50%);
+    background: linear-gradient(90deg, #050505 0%, #333 45%, #555 50%, #333 55%, #050505 100%);
+    border-radius: 99px;
+    box-shadow: 0 0 15px rgba(0,0,0,0.8);
+    overflow: visible; 
+    z-index: 0;
+}
+
+.timeline-3d::after {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: repeating-linear-gradient(
+        -45deg,
+        transparent 0px,
+        transparent 10px,
+        rgba(0, 212, 255, 0.1) 10px,
+        rgba(0, 212, 255, 0.2) 20px
+    );
+    border-radius: 99px;
+    animation: scrollTexture 2s linear infinite; 
+    background-size: 20px 20px;
+    opacity: 0.6;
+}
+
+@keyframes scrollTexture {
+    from { background-position: 0 0; }
+    to { background-position: 0 40px; }
+}
+
+.timeline-3d::before {
+    content: '';
+    position: absolute;
+    top: -150px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 140%; 
+    height: 150px; 
+    background: linear-gradient(to bottom, transparent, #00d4ff, #ff007a, transparent);
+    filter: blur(6px); 
+    box-shadow: 
+        0 0 20px 2px rgba(0, 212, 255, 0.6),
+        0 0 50px 10px rgba(255, 0, 122, 0.4); 
+    border-radius: 50%;
+    animation: travelTime 8s ease-in-out infinite; 
+    z-index: 1;
+}
+
+@keyframes travelTime {
+    0% { top: -150px; opacity: 0; }
+    10% { opacity: 1; }
+    90% { opacity: 1; }
+    100% { top: 105%; opacity: 0; }
+}
+
+/* =========================================
+   CINEMATIC "V" & LINES SPLASH SCREEN
+   ========================================= */
+
+#splash-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #050505; /* Matches body background for seamless fade */
+    z-index: 99999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    transition: opacity 0.8s ease-out; 
+}
+
+.splash-content {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    /* This applies the Zoom/Lines animation to the entire container (V + Text) */
+    animation: zoomAndBreak 4s cubic-bezier(0.7, 0, 0.3, 1) forwards;
+    transform-origin: center;
+}
+
+/* The "V" Logo Style */
+.v-logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 8rem;
+    line-height: 1;
+    color: transparent; /* Hollow look */
+    -webkit-text-stroke: 4px #00d4ff; /* Neon Outline */
+    text-shadow: 0 0 40px rgba(0, 212, 255, 0.8);
+    margin-bottom: 1rem;
+    position: relative;
+    /* Add a specific "Glow Pulse" just for the V before it zooms */
+    animation: vPulse 2s ease-in-out infinite alternate;
+}
+
+.cinematic-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 4rem;
+    color: #ffffff;
+    letter-spacing: 5px;
+    margin: 0;
+    line-height: 1;
+    text-shadow: 0 0 20px rgba(255, 255, 255, 0.4);
+    white-space: nowrap;
+}
+
+.cinematic-subtitle {
+    font-family: 'Poppins', sans-serif;
+    color: #00d4ff; /* Accent Color */
+    font-size: 1rem;
+    letter-spacing: 15px;
+    margin-top: 10px;
+    text-transform: uppercase;
+    font-weight: 600;
+}
+
+/* --- ANIMATIONS --- */
+
+/* 1. The Zoom & Lines Effect (The main movement) */
+@keyframes zoomAndBreak {
+    0% {
+        transform: scale(0.5);
+        opacity: 0;
+        filter: blur(10px);
+    }
+    15% {
+        transform: scale(1);
+        opacity: 1;
+        filter: blur(0px);
+    }
+    60% {
+        transform: scale(1.1); /* Brief hover */
+        opacity: 1;
+    }
+    100% {
+        /* The "Break into Lines" Effect */
+        transform: scale(30) scaleY(2); 
+        letter-spacing: 50px;
+        opacity: 0;
+        filter: blur(10px);
+    }
+}
+
+/* 2. The V Logo Pulse */
+@keyframes vPulse {
+    from {
+        text-shadow: 0 0 20px rgba(0, 212, 255, 0.5);
+        transform: translateY(0);
+    }
+    to {
+        text-shadow: 0 0 60px rgba(0, 212, 255, 1);
+        transform: translateY(-5px);
+    }
+}
+
+@media (max-width: 768px) {
+    .v-logo { font-size: 5rem; -webkit-text-stroke: 2px #00d4ff; }
+    .cinematic-title { font-size: 2.5rem; }
+    .cinematic-subtitle { font-size: 0.7rem; letter-spacing: 8px; }
+}
+
+#bubble-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    pointer-events: none;
+    z-index: 1;
+}
+
+/* Single Bubble */
+.bubble {
+    position: absolute;
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    color: white;
+    font-weight: 600;
+    backdrop-filter: blur(4px);
+    background: rgba(255, 255, 255, 0.05);
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    box-shadow:
+        inset 0 0 12px rgba(255, 255, 255, 0.2),
+        0 0 25px rgba(0, 180, 255, 0.6);
+    
+    animation: float 10s infinite linear;
+    transform-style: preserve-3d;
+    cursor: pointer;
+    pointer-events: all;
+}
+
+/* Glow Colors */
+.bubble.js { border-color: #facc15; box-shadow: 0 0 25px #facc15aa; }
+.bubble.python { border-color: #4ade80; box-shadow: 0 0 25px #4ade80aa; }
+.bubble.react { border-color: #22d3ee; box-shadow: 0 0 25px #22d3eeaa; }
+.bubble.node { border-color: #a3e635; box-shadow: 0 0 25px #a3e635aa; }
+.bubble.c   { border-color: #60a5fa; box-shadow: 0 0 25px #60a5faaa; }
+
+/* FLOATING Animation */
+@keyframes float {
+    0%   { transform: translateY(100vh) translateZ(0px) rotate(0deg); }
+    50%  { transform: translateY(-20vh) translateZ(60px) rotate(180deg); }
+    100% { transform: translateY(-120vh) translateZ(0px) rotate(360deg); }
+}
+
+/* POP Animation */
+@keyframes pop {
+    0% { transform: scale(1); opacity: 1; }
+    80% { transform: scale(1.8); opacity: 0.4; }
+    100% { transform: scale(0); opacity: 0; }
+}
+
+.bubble.pop {
+    animation: pop 0.4s linear forwards;
+    box-shadow: none;
+    border-color: transparent;
+}

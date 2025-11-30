@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Projects | Vraj Sevak</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <script>
+        tailwind.config = {
+            theme: { extend: { fontFamily: { sans: ['Poppins', 'sans-serif'] }, colors: { primary: '#00d4ff', secondary: '#ff007a', dark: '#0a0a0a', darker: '#050505', card: 'rgba(255, 255, 255, 0.05)' } } }
+        }
+    </script>
+    <style>
+        /* Modal Animation */
+        #video-modal { transition: opacity 0.3s ease, visibility 0.3s ease; }
+        #video-modal.hidden-modal { opacity: 0; visibility: hidden; pointer-events: none; }
+        #video-modal.visible-modal { opacity: 1; visibility: visible; pointer-events: auto; }
+        
+        /* Video Scale Animation */
+        #modal-content { transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        .visible-modal #modal-content { transform: scale(1); }
+        .hidden-modal #modal-content { transform: scale(0.95); }
+    </style>
+</head>
+<body class="antialiased">
+    <canvas id="particles-canvas"></canvas>
+
+    <div id="video-modal" class="hidden-modal fixed inset-0 z-[100] flex items-center justify-center bg-black/90 backdrop-blur-md p-4">
+        <button onclick="closeVideoModal()" class="absolute top-6 right-6 text-white hover:text-primary text-4xl transition-colors duration-300 z-50 cursor-pointer">
+            <i class="fas fa-times"></i>
+        </button>
+        
+        <div id="modal-content" class="relative w-full max-w-5xl bg-gray-900 rounded-xl overflow-hidden shadow-[0_0_50px_rgba(0,212,255,0.2)] border border-gray-700">
+            <div class="aspect-video w-full">
+                <video id="project-video" class="w-full h-full object-cover" controls>
+                    <source src="" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+            </div>
+        </div>
+    </div>
+
+    <nav class="fixed w-full z-50 glass-nav transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                <a href="index.html" class="flex-shrink-0 cursor-pointer">
+                    <span class="text-2xl font-bold tracking-wider text-white">PORT<span class="text-primary">FOLIO</span></span>
+                </a>
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-8">
+                        <a href="index.html" class="hover:text-primary transition-colors duration-300 px-3 py-2 rounded-md text-sm font-medium">Home</a>
+                        <a href="about.html" class="hover:text-primary transition-colors duration-300 px-3 py-2 rounded-md text-sm font-medium">About</a>
+                        <a href="skills.html" class="hover:text-primary transition-colors duration-300 px-3 py-2 rounded-md text-sm font-medium">Skills</a>
+                        <a href="certificates.html" class="text-white block px-3 py-2 rounded-md text-base font-medium">Certificates</a>
+                        <a href="education.html" class="hover:text-primary transition-colors duration-300 px-3 py-2 rounded-md text-sm font-medium">Education</a>
+                        <a href="projects.html" class="text-primary px-3 py-2 rounded-md text-sm font-medium">Projects</a>
+                        <a href="contact.html" class="bg-primary hover:bg-cyan-400 text-black px-4 py-2 rounded-full transition-all duration-300 font-bold">Contact Me</a>
+                    </div>
+                </div>
+                <div class="-mr-2 flex md:hidden">
+                    <button id="mobile-menu-btn" class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-gray-700 focus:outline-none">
+                        <i class="fas fa-bars text-xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="md:hidden hidden bg-black/95 backdrop-blur-md absolute w-full border-b border-gray-800" id="mobile-menu">
+            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3 text-center">
+                <a href="index.html" class="text-gray-300 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Home</a>
+                <a href="about.html" class="text-gray-300 hover:text-white block px-3 py-2 rounded-md text-base font-medium">About</a>
+                <a href="skills.html" class="text-gray-300 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Skills</a>
+                <a href="certificates.html" class="text-white block px-3 py-2 rounded-md text-base font-medium">Certificates</a>
+                <a href="education.html" class="text-gray-300 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Education</a>
+                <a href="projects.html" class="text-primary font-bold block px-3 py-2 rounded-md text-base">Projects</a>
+                <a href="contact.html" class="text-gray-300 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Contact</a>
+            </div>
+        </div>
+    </nav>
+
+    <section id="projects" class="min-h-screen py-20 bg-black/30 pt-32">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-center mb-16" data-aos="fade-up">
+                <h2 class="text-3xl md:text-4xl font-bold mb-4">Featured <span class="text-primary">Projects</span></h2>
+                <p class="text-gray-400">Some of my recent digital creations.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                
+                <div class="glass rounded-xl overflow-hidden group hover:shadow-2xl hover:shadow-cyan-500/10 transition-all duration-300" data-aos="flip-left">
+                    <div class="h-48 bg-gray-800 relative overflow-hidden group">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-60 z-10"></div>
+                        <div class="w-full h-full flex items-center justify-center bg-gray-900 text-gray-700">
+                           <i class="fas fa-briefcase text-6xl"></i>
+                        </div>
+                        
+                        <div class="absolute inset-0 z-20 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 cursor-pointer" onclick="openVideoModal('videos/project1.mp4')">
+                            <div class="w-16 h-16 bg-primary/90 rounded-full flex items-center justify-center shadow-lg hover:scale-110 transition-transform">
+                                <i class="fas fa-play text-white text-2xl ml-1"></i>
+                            </div>
+                        </div>
+
+                        <div class="absolute bottom-0 left-0 p-4 z-20 translate-y-4 group-hover:translate-y-0 transition-transform duration-300 pointer-events-none">
+                            <h3 class="text-xl font-bold text-white">Local Lancer</h3>
+                            <p class="text-primary text-sm">Full Stack Marketplace</p>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <p class="text-gray-400 text-sm mb-4">A freelance marketplace connecting local talent with opportunities. Features user auth, gig posting, and search.</p>
+                        <div class="flex justify-between items-center">
+                            <button onclick="openVideoModal('videos/project1.mp4')" class="text-sm font-bold text-white hover:text-primary flex items-center gap-2 cursor-pointer">
+                                <i class="fas fa-play-circle"></i> Live Demo
+                            </button>
+                            <a href="https://github.com/sevakvraj/Local-Lancer" target="_blank" class="text-sm font-bold text-white hover:text-secondary"><i class="fab fa-github mr-1"></i> Code</a>
+                        </div>
+                    </div>
+                </div>
+
+                 <div class="glass rounded-xl overflow-hidden group hover:shadow-2xl hover:shadow-pink-500/10 transition-all duration-300" data-aos="flip-left" data-aos-delay="100">
+                    <div class="h-48 bg-gray-800 relative overflow-hidden">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-60 z-10"></div>
+                        <div class="w-full h-full flex items-center justify-center bg-gray-900 text-gray-700">
+                           <i class="fas fa-gamepad text-6xl"></i>
+                        </div>
+                        <div class="absolute bottom-0 left-0 p-4 z-20 translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
+                            <h3 class="text-xl font-bold text-white">JS Game Hub</h3>
+                            <p class="text-secondary text-sm">Vanilla JS</p>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <p class="text-gray-400 text-sm mb-4">A collection of classic arcade games built entirely with JavaScript and HTML5 Canvas.</p>
+                        <div class="flex justify-between items-center">
+                            <a href="#" class="text-sm font-bold text-white hover:text-primary"><i class="fas fa-link mr-1"></i> Live Demo</a>
+                            <a href="#" class="text-sm font-bold text-white hover:text-secondary"><i class="fab fa-github mr-1"></i> Code</a>
+                        </div>
+                    </div>
+                </div>
+
+                 <div class="glass rounded-xl overflow-hidden group hover:shadow-2xl hover:shadow-purple-500/10 transition-all duration-300" data-aos="flip-left" data-aos-delay="200">
+                    <div class="h-48 bg-gray-800 relative overflow-hidden">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-60 z-10"></div>
+                        <div class="w-full h-full flex items-center justify-center bg-gray-900 text-gray-700">
+                           <i class="fas fa-cloud-sun text-6xl"></i>
+                        </div>
+                        <div class="absolute bottom-0 left-0 p-4 z-20 translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
+                            <h3 class="text-xl font-bold text-white">Weather App</h3>
+                            <p class="text-purple-400 text-sm">API Integration</p>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <p class="text-gray-400 text-sm mb-4">Real-time weather tracking application using OpenWeatherMap API.</p>
+                        <div class="flex justify-between items-center">
+                            <a href="#" class="text-sm font-bold text-white hover:text-primary"><i class="fas fa-link mr-1"></i> Live Demo</a>
+                            <a href="#" class="text-sm font-bold text-white hover:text-secondary"><i class="fab fa-github mr-1"></i> Code</a>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <footer class="relative py-12 border-t border-gray-900 text-center text-gray-500 text-sm overflow-hidden group">
+        <div class="absolute inset-0 z-0">
+            <img src="images/profile.jpg" alt="Footer Background" class="w-full h-full object-cover opacity-10 blur-sm grayscale group-hover:grayscale-0 group-hover:opacity-20 transition-all duration-700">
+            <div class="absolute inset-0 bg-gradient-to-t from-black via-black/90 to-black/80"></div>
+        </div>
+        <div class="relative z-10">
+            <style>
+                @keyframes scroll { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+                .marquee-content { display: flex; animation: scroll 20s linear infinite; }
+                .marquee-wrapper:hover .marquee-content { animation-play-state: paused; }
+            </style>
+            <div class="marquee-wrapper overflow-hidden bg-transparent py-10 mb-6">
+                <div class="marquee-content w-[200%]">
+                    <div class="flex justify-around w-1/2 text-4xl text-gray-600">
+                        <i class="fab fa-html5 hover:text-orange-500 transition-all duration-300 hover:scale-150 hover:-translate-y-2 hover:drop-shadow-[0_0_15px_rgba(249,115,22,0.8)] cursor-pointer"></i>
+                        <i class="fab fa-css3-alt hover:text-blue-500 transition-all duration-300 hover:scale-150 hover:-translate-y-2 hover:drop-shadow-[0_0_15px_rgba(59,130,246,0.8)] cursor-pointer"></i>
+                        <i class="fab fa-js hover:text-yellow-400 transition-all duration-300 hover:scale-150 hover:-translate-y-2 hover:drop-shadow-[0_0_15px_rgba(250,204,21,0.8)] cursor-pointer"></i>
+                        <i class="fab fa-react hover:text-cyan-400 transition-all duration-300 hover:scale-150 hover:-translate-y-2 hover:drop-shadow-[0_0_15px_rgba(34,211,238,0.8)] cursor-pointer"></i>
+                        <i class="fab fa-python hover:text-yellow-300 transition-all duration-300 hover:scale-150 hover:-translate-y-2 hover:drop-shadow-[0_0_15px_rgba(253,224,71,0.8)] cursor-pointer"></i>
+                        <i class="fab fa-node hover:text-green-500 transition-all duration-300 hover:scale-150 hover:-translate-y-2 hover:drop-shadow-[0_0_15px_rgba(34,197,94,0.8)] cursor-pointer"></i>
+                        <i class="fas fa-database hover:text-white transition-all duration-300 hover:scale-150 hover:-translate-y-2 hover:drop-shadow-[0_0_15px_rgba(255,255,255,0.8)] cursor-pointer"></i>
+                    </div>
+                    <div class="flex justify-around w-1/2 text-4xl text-gray-600">
+                        <i class="fab fa-html5 hover:text-orange-500 transition-all duration-300 hover:scale-150 hover:-translate-y-2 hover:drop-shadow-[0_0_15px_rgba(249,115,22,0.8)] cursor-pointer"></i>
+                        <i class="fab fa-css3-alt hover:text-blue-500 transition-all duration-300 hover:scale-150 hover:-translate-y-2 hover:drop-shadow-[0_0_15px_rgba(59,130,246,0.8)] cursor-pointer"></i>
+                        <i class="fab fa-js hover:text-yellow-400 transition-all duration-300 hover:scale-150 hover:-translate-y-2 hover:drop-shadow-[0_0_15px_rgba(250,204,21,0.8)] cursor-pointer"></i>
+                        <i class="fab fa-react hover:text-cyan-400 transition-all duration-300 hover:scale-150 hover:-translate-y-2 hover:drop-shadow-[0_0_15px_rgba(34,211,238,0.8)] cursor-pointer"></i>
+                        <i class="fab fa-python hover:text-yellow-300 transition-all duration-300 hover:scale-150 hover:-translate-y-2 hover:drop-shadow-[0_0_15px_rgba(253,224,71,0.8)] cursor-pointer"></i>
+                        <i class="fab fa-node hover:text-green-500 transition-all duration-300 hover:scale-150 hover:-translate-y-2 hover:drop-shadow-[0_0_15px_rgba(34,197,94,0.8)] cursor-pointer"></i>
+                        <i class="fas fa-database hover:text-white transition-all duration-300 hover:scale-150 hover:-translate-y-2 hover:drop-shadow-[0_0_15px_rgba(255,255,255,0.8)] cursor-pointer"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="space-y-2" data-aos="fade-up" data-aos-offset="0">
+                <p>&copy; 2025 Vraj Sevak. All rights reserved.</p>
+                <p class="text-xs text-gray-600">
+                    Designed & Developed by <span class="text-primary font-bold hover:text-white transition-colors cursor-default">Vraj Sevak</span>
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="js/script.js"></script>
+    
+    <script>
+        AOS.init({ duration: 1000, once: true });
+
+        // --- VIDEO MODAL LOGIC ---
+        function openVideoModal(videoSrc) {
+            const modal = document.getElementById('video-modal');
+            const videoElement = document.getElementById('project-video');
+            const sourceElement = videoElement.querySelector('source');
+
+            // Set video source
+            sourceElement.src = videoSrc;
+            videoElement.load(); // Reload video with new source
+            
+            // Show modal
+            modal.classList.remove('hidden-modal');
+            modal.classList.add('visible-modal');
+            
+            // Auto play
+            videoElement.play();
+        }
+
+        function closeVideoModal() {
+            const modal = document.getElementById('video-modal');
+            const videoElement = document.getElementById('project-video');
+            
+            // Hide modal
+            modal.classList.remove('visible-modal');
+            modal.classList.add('hidden-modal');
+            
+            // Pause video and reset
+            videoElement.pause();
+            setTimeout(() => {
+                videoElement.querySelector('source').src = '';
+            }, 300);
+        }
+
+        // Close on click outside
+        document.getElementById('video-modal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeVideoModal();
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home | Vraj Sevak</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/splash.css">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Poppins', 'sans-serif'] },
+                    colors: {
+                        primary: '#00d4ff', secondary: '#ff007a', dark: '#0a0a0a', darker: '#050505', card: 'rgba(255, 255, 255, 0.05)'
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="antialiased">
+
+    <div id="splash-overlay">
+        <div class="splash-content">
+            <div class="v-logo">V</div>
+            <h1 class="cinematic-title">WELCOME</h1>
+            <p class="cinematic-subtitle">TO VRAJ'S PORTFOLIO</p>
+        </div>
+    </div>
+
+    <canvas id="particles-canvas"></canvas>
+
+    <nav class="fixed w-full z-50 glass-nav transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                <a href="index.html" class="flex-shrink-0 cursor-pointer">
+                    <span class="text-2xl font-bold tracking-wider text-white">PORT<span class="text-primary">FOLIO</span></span>
+                </a>
+                
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-8">
+                        <a href="index.html" class="hover:text-primary transition-colors duration-300 px-3 py-2 rounded-md text-sm font-medium">Home</a>
+                        <a href="about.html" class="hover:text-primary transition-colors duration-300 px-3 py-2 rounded-md text-sm font-medium">About</a>
+                        <a href="skills.html" class="hover:text-primary transition-colors duration-300 px-3 py-2 rounded-md text-sm font-medium">Skills</a>
+                        <a href="certificates.html" class="text-white block px-3 py-2 rounded-md text-base font-medium">Certificates</a>
+                        <a href="education.html" class="hover:text-primary transition-colors duration-300 px-3 py-2 rounded-md text-sm font-medium">Education</a>
+                        <a href="projects.html" class="hover:text-primary transition-colors duration-300 px-3 py-2 rounded-md text-sm font-medium">Projects</a>
+                        <a href="contact.html" class="bg-primary hover:bg-cyan-400 text-black px-4 py-2 rounded-full transition-all duration-300 font-bold">Contact Me</a>
+                    </div>
+                </div>
+                 <div class="-mr-2 flex md:hidden">
+                    <button id="mobile-menu-btn" class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-gray-700"><i class="fas fa-bars text-xl"></i></button>
+                </div>
+            </div>
+        </div>
+        <div class="md:hidden hidden bg-black/95 backdrop-blur-md absolute w-full border-b border-gray-800" id="mobile-menu">
+            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3 text-center">
+                 <a href="index.html" class="text-gray-300 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Home</a>
+                 <a href="about.html" class="text-white block px-3 py-2 rounded-md text-base font-medium">About</a>
+                 <a href="skills.html" class="text-gray-300 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Skills</a>
+                 <a href="certificates.html" class="text-white block px-3 py-2 rounded-md text-base font-medium">Certificates</a>
+                 <a href="education.html" class="text-gray-300 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Education</a>
+                 <a href="projects.html" class="text-gray-300 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Projects</a>
+                 <a href="contact.html" class="text-primary font-bold block px-3 py-2 rounded-md text-base">Contact</a>
+            </div>
+        </div>
+    </nav>
+
+    <section id="home" class="min-h-screen flex items-center justify-center relative pt-20">
+        <div class="container mx-auto px-6 flex flex-col-reverse md:flex-row items-center">
+            
+            <div class="w-full md:w-1/2 text-center md:text-left z-10" data-aos="fade-right" data-aos-duration="1000">
+                <h3 class="text-xl md:text-2xl text-primary font-semibold mb-2">Hello, Myself</h3>
+                <h1 class="text-5xl md:text-7xl font-bold mb-4 tracking-tight">Vraj <span class="text-white">Sevak</span></h1>
+                <div class="text-2xl md:text-3xl font-light text-gray-300 mb-8 h-12">
+                    I am a <span class="txt-type text-primary font-semibold" data-wait="3000" data-words='["Web Developer", "UI/UX Designer", "Creative Coder", "Tech Enthusiast"]'></span><span class="cursor">|</span>
+                </div>
+                <p class="text-gray-400 text-lg mb-8 max-w-lg mx-auto md:mx-0 leading-relaxed">
+                    Transforming ideas into digital reality. I specialize in building exceptional digital experiences that are fast, accessible, and visually stunning.
+                </p>
+                
+                <div class="flex gap-4 justify-center md:justify-start">
+                    <a href="projects.html" class="px-8 py-3 bg-gradient-to-r from-primary to-blue-500 rounded-full font-bold text-black hover:scale-105 transition-transform shadow-lg shadow-cyan-500/20">View Work</a>
+                    <a href="contact.html" class="px-8 py-3 border border-gray-600 rounded-full font-bold hover:border-white hover:bg-white hover:text-black transition-all">Contact Me</a>
+                </div>
+                
+                <div class="mt-10 flex gap-6 justify-center md:justify-start">
+                    
+                    <a href="https://github.com/sevakvraj" target="_blank" 
+                       class="group relative flex items-center justify-center w-14 h-14 bg-gray-800/50 rounded-full border border-gray-700 hover:bg-white hover:border-white transition-all duration-300 hover:-translate-y-2 shadow-[0_0_20px_rgba(0,0,0,0.5)] hover:shadow-[0_0_30px_rgba(255,255,255,0.4)]">
+                        <i class="fab fa-github text-3xl text-white group-hover:text-black transition-colors duration-300"></i>
+                    </a>
+
+                    <a href="https://www.linkedin.com/in/sevak-vraj-79a237258/" target="_blank" 
+                       class="group relative flex items-center justify-center w-14 h-14 bg-gray-800/50 rounded-full border border-gray-700 hover:bg-[#0077b5] hover:border-[#0077b5] transition-all duration-300 hover:-translate-y-2 shadow-[0_0_20px_rgba(0,0,0,0.5)] hover:shadow-[0_0_30px_rgba(0,119,181,0.6)]">
+                        <i class="fab fa-linkedin text-3xl text-white group-hover:text-white transition-colors duration-300"></i>
+                    </a>
+
+                    <a href="https://www.instagram.com/sevak_vraj_007?igsh=MTFnOHJvZzJlaW4z" target="_blank" 
+                       class="group relative flex items-center justify-center w-14 h-14 bg-gray-800/50 rounded-full border border-gray-700 hover:bg-gradient-to-tr from-[#f09433] via-[#dc2743] to-[#bc1888] hover:border-[#dc2743] transition-all duration-300 hover:-translate-y-2 shadow-[0_0_20px_rgba(0,0,0,0.5)] hover:shadow-[0_0_30px_rgba(220,39,67,0.6)]">
+                        <i class="fab fa-instagram text-3xl text-white group-hover:text-white transition-colors duration-300"></i>
+                    </a>
+
+                </div>
+                </div>
+
+            <div class="w-full md:w-1/2 flex justify-center mb-10 md:mb-0 relative" data-aos="fade-left" data-aos-duration="1000">
+                <div class="absolute inset-0 bg-primary opacity-10 blur-3xl rounded-full scale-75 animate-pulse"></div>
+                <div class="relative w-64 h-64 md:w-96 md:h-96 rounded-full overflow-hidden border-4 border-gray-800 shadow-2xl float">
+                    <img src="images/profile.jpg" alt="Profile" class="w-full h-full object-cover">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="relative py-12 border-t border-gray-900 text-center text-gray-500 text-sm overflow-hidden group">
+        <div class="absolute inset-0 z-0">
+            <img src="images/profile.jpg" alt="Footer Background" class="w-full h-full object-cover opacity-10 blur-sm grayscale group-hover:grayscale-0 group-hover:opacity-20 transition-all duration-700">
+            <div class="absolute inset-0 bg-gradient-to-t from-black via-black/90 to-black/80"></div>
+        </div>
+        <div class="relative z-10">
+            <div class="marquee-wrapper overflow-hidden bg-transparent py-10 mb-6">
+                <div class="marquee-content w-[200%]">
+                    <div class="flex justify-around w-1/2 text-4xl text-gray-600">
+                        <i class="fab fa-html5 hover:text-orange-500 transition-colors"></i>
+                        <i class="fab fa-css3-alt hover:text-blue-500 transition-colors"></i>
+                        <i class="fab fa-js hover:text-yellow-400 transition-colors"></i>
+                        <i class="fab fa-react hover:text-cyan-400 transition-colors"></i>
+                        <i class="fab fa-python hover:text-yellow-300 transition-colors"></i>
+                        <i class="fab fa-node hover:text-green-500 transition-colors"></i>
+                        <i class="fas fa-database hover:text-white transition-colors"></i>
+                    </div>
+                    <div class="flex justify-around w-1/2 text-4xl text-gray-600">
+                        <i class="fab fa-html5 hover:text-orange-500 transition-colors"></i>
+                        <i class="fab fa-css3-alt hover:text-blue-500 transition-colors"></i>
+                        <i class="fab fa-js hover:text-yellow-400 transition-colors"></i>
+                        <i class="fab fa-react hover:text-cyan-400 transition-colors"></i>
+                        <i class="fab fa-python hover:text-yellow-300 transition-colors"></i>
+                        <i class="fab fa-node hover:text-green-500 transition-colors"></i>
+                        <i class="fas fa-database hover:text-white transition-colors"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="space-y-2" data-aos="fade-up" data-aos-offset="0">
+                <p>&copy; 2025 Vraj Sevak. All rights reserved.</p>
+                <p class="text-xs text-gray-600">Designed & Developed by <span class="text-primary font-bold hover:text-white transition-colors">Vraj Sevak</span></p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="js/script.js"></script>
+    <script src="js/splash.js"></script>
+</body>
+</html>

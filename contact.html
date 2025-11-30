@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact | Vraj Sevak</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <script>
+        tailwind.config = {
+            theme: { extend: { fontFamily: { sans: ['Poppins', 'sans-serif'] }, colors: { primary: '#00d4ff', secondary: '#ff007a', dark: '#0a0a0a', darker: '#050505', card: 'rgba(255, 255, 255, 0.05)' } } }
+        }
+    </script>
+</head>
+<body class="antialiased">
+    <canvas id="particles-canvas"></canvas>
+
+    <nav class="fixed w-full z-50 glass-nav transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                <a href="index.html" class="flex-shrink-0 cursor-pointer">
+                    <span class="text-2xl font-bold tracking-wider text-white">PORT<span class="text-primary">FOLIO</span></span>
+                </a>
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-8">
+                        <a href="index.html" class="hover:text-primary transition-colors duration-300 px-3 py-2 rounded-md text-sm font-medium">Home</a>
+                        <a href="about.html" class="hover:text-primary transition-colors duration-300 px-3 py-2 rounded-md text-sm font-medium">About</a>
+                        <a href="skills.html" class="hover:text-primary transition-colors duration-300 px-3 py-2 rounded-md text-sm font-medium">Skills</a>
+                        <a href="certificates.html" class="text-white block px-3 py-2 rounded-md text-base font-medium">Certificates</a>
+                        <a href="education.html" class="hover:text-primary transition-colors duration-300 px-3 py-2 rounded-md text-sm font-medium">Education</a>
+                        <a href="projects.html" class="hover:text-primary transition-colors duration-300 px-3 py-2 rounded-md text-sm font-medium">Projects</a>
+                        <a href="contact.html" class="bg-primary hover:bg-cyan-400 text-black px-4 py-2 rounded-full transition-all duration-300 font-bold">Contact Me</a>
+                    </div>
+                </div>
+                 <div class="-mr-2 flex md:hidden">
+                    <button id="mobile-menu-btn" class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-gray-700"><i class="fas fa-bars text-xl"></i></button>
+                </div>
+            </div>
+        </div>
+        <div class="md:hidden hidden bg-black/95 backdrop-blur-md absolute w-full border-b border-gray-800" id="mobile-menu">
+            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3 text-center">
+                 <a href="index.html" class="text-gray-300 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Home</a>
+                 <a href="about.html" class="text-white block px-3 py-2 rounded-md text-base font-medium">About</a>
+                 <a href="skills.html" class="text-gray-300 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Skills</a>
+                 <a href="certificates.html" class="text-white block px-3 py-2 rounded-md text-base font-medium">Certificates</a>
+                 <a href="education.html" class="text-gray-300 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Education</a>
+                 <a href="projects.html" class="text-gray-300 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Projects</a>
+                 <a href="contact.html" class="text-primary font-bold block px-3 py-2 rounded-md text-base">Contact</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Contact Section -->
+    <section id="contact" class="min-h-screen flex items-center py-20 relative overflow-hidden pt-32">
+        <div class="max-w-4xl mx-auto px-6 relative z-10 w-full">
+            <div class="text-center mb-16" data-aos="fade-up">
+                <h2 class="text-3xl md:text-4xl font-bold mb-4">Get In <span class="text-gradient">Touch</span></h2>
+                <p class="text-gray-400">Have a project in mind? Let's talk.</p>
+            </div>
+
+            <div class="glass p-8 md:p-12 rounded-3xl" data-aos="zoom-in">
+                <form class="space-y-6">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-400 mb-2">Name</label>
+                            <input type="text" class="w-full bg-white/5 border border-gray-700 rounded-lg px-4 py-3 text-white focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all" placeholder="Your name here">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-400 mb-2">Email</label>
+                            <input type="email" class="w-full bg-white/5 border border-gray-700 rounded-lg px-4 py-3 text-white focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all" placeholder="abc@example.com">
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-400 mb-2">Message</label>
+                        <textarea rows="4" class="w-full bg-white/5 border border-gray-700 rounded-lg px-4 py-3 text-white focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all" placeholder="Your message here..."></textarea>
+                    </div>
+                    <button type="button" class="w-full bg-gradient-to-r from-primary to-secondary text-white font-bold py-4 rounded-lg hover:shadow-lg hover:shadow-cyan-500/20 transition-all transform hover:scale-[1.02]">
+                        Send Message
+                    </button>
+                </form>
+
+                <div class="mt-12 pt-8 border-t border-gray-800 grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
+                    <div class="flex flex-col items-center">
+                        <div class="w-12 h-12 bg-white/5 rounded-full flex items-center justify-center mb-4 text-primary">
+                            <i class="fas fa-phone"></i>
+                        </div>
+                        <p class="text-gray-400 text-sm">+91 9427547499</p>
+                    </div>
+                    <div class="flex flex-col items-center">
+                        <div class="w-12 h-12 bg-white/5 rounded-full flex items-center justify-center mb-4 text-secondary">
+                            <i class="fas fa-envelope"></i>
+                        </div>
+                        <p class="text-gray-400 text-sm">sevakvraj2020@gmail.com</p>
+                    </div>
+                    <div class="flex flex-col items-center">
+                        <div class="w-12 h-12 bg-white/5 rounded-full flex items-center justify-center mb-4 text-purple-500">
+                            <i class="fas fa-map-marker-alt"></i>
+                        </div>
+                        <p class="text-gray-400 text-sm">Gujarat, India</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="relative py-12 border-t border-gray-900 text-center text-gray-500 text-sm overflow-hidden group">
+    
+    <div class="absolute inset-0 z-0">
+        <img src="images/profile.jpg" alt="Footer Background" class="w-full h-full object-cover opacity-10 blur-sm grayscale group-hover:grayscale-0 group-hover:opacity-20 transition-all duration-700">
+        <div class="absolute inset-0 bg-gradient-to-t from-black via-black/90 to-black/80"></div>
+    </div>
+
+    <div class="relative z-10">
+        
+        <style>
+            @keyframes scroll { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+            .marquee-content { display: flex; animation: scroll 20s linear infinite; }
+            /* Pause animation on hover for better interaction */
+            .marquee-wrapper:hover .marquee-content { animation-play-state: paused; }
+        </style>
+
+        <div class="marquee-wrapper overflow-hidden bg-transparent py-10 mb-6">
+            <div class="marquee-content w-[200%]">
+                <div class="flex justify-around w-1/2 text-4xl text-gray-600">
+                    <i class="fab fa-html5 hover:text-orange-500 transition-all duration-300 hover:scale-150 hover:-translate-y-2 hover:drop-shadow-[0_0_15px_rgba(249,115,22,0.8)] cursor-pointer"></i>
+                    <i class="fab fa-css3-alt hover:text-blue-500 transition-all duration-300 hover:scale-150 hover:-translate-y-2 hover:drop-shadow-[0_0_15px_rgba(59,130,246,0.8)] cursor-pointer"></i>
+                    <i class="fab fa-js hover:text-yellow-400 transition-all duration-300 hover:scale-150 hover:-translate-y-2 hover:drop-shadow-[0_0_15px_rgba(250,204,21,0.8)] cursor-pointer"></i>
+                    <i class="fab fa-react hover:text-cyan-400 transition-all duration-300 hover:scale-150 hover:-translate-y-2 hover:drop-shadow-[0_0_15px_rgba(34,211,238,0.8)] cursor-pointer"></i>
+                    <i class="fab fa-python hover:text-yellow-300 transition-all duration-300 hover:scale-150 hover:-translate-y-2 hover:drop-shadow-[0_0_15px_rgba(253,224,71,0.8)] cursor-pointer"></i>
+                    <i class="fab fa-node hover:text-green-500 transition-all duration-300 hover:scale-150 hover:-translate-y-2 hover:drop-shadow-[0_0_15px_rgba(34,197,94,0.8)] cursor-pointer"></i>
+                    <i class="fas fa-database hover:text-white transition-all duration-300 hover:scale-150 hover:-translate-y-2 hover:drop-shadow-[0_0_15px_rgba(255,255,255,0.8)] cursor-pointer"></i>
+                </div>
+                <div class="flex justify-around w-1/2 text-4xl text-gray-600">
+                    <i class="fab fa-html5 hover:text-orange-500 transition-all duration-300 hover:scale-150 hover:-translate-y-2 hover:drop-shadow-[0_0_15px_rgba(249,115,22,0.8)] cursor-pointer"></i>
+                    <i class="fab fa-css3-alt hover:text-blue-500 transition-all duration-300 hover:scale-150 hover:-translate-y-2 hover:drop-shadow-[0_0_15px_rgba(59,130,246,0.8)] cursor-pointer"></i>
+                    <i class="fab fa-js hover:text-yellow-400 transition-all duration-300 hover:scale-150 hover:-translate-y-2 hover:drop-shadow-[0_0_15px_rgba(250,204,21,0.8)] cursor-pointer"></i>
+                    <i class="fab fa-react hover:text-cyan-400 transition-all duration-300 hover:scale-150 hover:-translate-y-2 hover:drop-shadow-[0_0_15px_rgba(34,211,238,0.8)] cursor-pointer"></i>
+                    <i class="fab fa-python hover:text-yellow-300 transition-all duration-300 hover:scale-150 hover:-translate-y-2 hover:drop-shadow-[0_0_15px_rgba(253,224,71,0.8)] cursor-pointer"></i>
+                    <i class="fab fa-node hover:text-green-500 transition-all duration-300 hover:scale-150 hover:-translate-y-2 hover:drop-shadow-[0_0_15px_rgba(34,197,94,0.8)] cursor-pointer"></i>
+                    <i class="fas fa-database hover:text-white transition-all duration-300 hover:scale-150 hover:-translate-y-2 hover:drop-shadow-[0_0_15px_rgba(255,255,255,0.8)] cursor-pointer"></i>
+                </div>
+            </div>
+        </div>
+
+        <div class="space-y-2" data-aos="fade-up" data-aos-offset="0">
+            <p>&copy; 2025 Vraj Sevak. All rights reserved.</p>
+            <p class="text-xs text-gray-600">
+                Designed & Developed by <span class="text-primary font-bold hover:text-white transition-colors cursor-default">Vraj Sevak</span>
+            </p>
+        </div>
+    </div>
+</footer>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="js/script.js"></script>
+</body>
+</html>
