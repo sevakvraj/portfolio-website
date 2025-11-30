@@ -5,228 +5,284 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Skills | Vraj Sevak</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    
+    <script src="https://cdn.lordicon.com/lordicon.js"></script>
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
     <script>
         tailwind.config = {
-            theme: { 
-                extend: { 
-                    fontFamily: { sans: ['Poppins', 'sans-serif'] }, 
-                    colors: { 
-                        primary: '#00d4ff', 
-                        secondary: '#ff007a', 
-                        dark: '#0a0a0a', 
-                        darker: '#050505', 
-                        card: 'rgba(255, 255, 255, 0.05)' 
-                    } 
-                } 
-            }
+            theme: { extend: { fontFamily: { sans: ['Poppins', 'sans-serif'] }, colors: { primary: '#00d4ff', secondary: '#ff007a', dark: '#0a0a0a', darker: '#050505', card: 'rgba(255, 255, 255, 0.05)' } } }
         }
     </script>
     <style>
-        @keyframes scroll { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
-        .marquee-content { display: flex; animation: scroll 20s linear infinite; }
-        .marquee-wrapper:hover .marquee-content { animation-play-state: paused; }
-        /* Add hover effects for skill bars here if needed, but keeping existing structure */
-        .glass-card {
-            background: rgba(255, 255, 255, 0.03);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            transition: all 0.3s ease;
-        }
-        .glass-card:hover {
-            border-color: #00d4ff;
-            background: rgba(255, 255, 255, 0.06);
-            transform: translateY(-3px);
-            box-shadow: 0 5px 20px rgba(0, 212, 255, 0.2);
+        /* --- CSS FOR BAR ANIMATION --- */
+        .skill-bar {
+            width: 0%; /* Start at 0 */
+            transition: width 1.5s cubic-bezier(0.2, 1, 0.2, 1); /* Smooth easing */
         }
     </style>
 </head>
-<body class="antialiased bg-darker text-white">
-    <canvas id="particles-canvas" class="fixed inset-0 pointer-events-none z-0"></canvas>
+<body class="antialiased">
+    <canvas id="particles-canvas"></canvas>
 
-    <nav class="fixed w-full z-50 glass-nav transition-all duration-300 backdrop-blur-md bg-black/80 border-b border-white/10">
+    <nav class="fixed w-full z-50 glass-nav transition-all duration-300">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex items-center justify-between h-20">
-                <a href="index.html" class="flex-shrink-0 cursor-pointer group">
-                    <span class="text-2xl font-bold tracking-wider text-white group-hover:text-primary transition-colors">PORT<span class="text-primary group-hover:text-white transition-colors">FOLIO</span></span>
+                <a href="index.html" class="flex-shrink-0 cursor-pointer">
+                    <span class="text-2xl font-bold tracking-wider text-white">PORT<span class="text-primary">FOLIO</span></span>
                 </a>
                 <div class="hidden md:block">
                     <div class="ml-10 flex items-baseline space-x-8">
                         <a href="index.html" class="hover:text-primary transition-colors duration-300 px-3 py-2 rounded-md text-sm font-medium">Home</a>
                         <a href="about.html" class="hover:text-primary transition-colors duration-300 px-3 py-2 rounded-md text-sm font-medium">About</a>
                         <a href="skills.html" class="text-primary px-3 py-2 rounded-md text-sm font-medium">Skills</a>
-                        <a href="certificates.html" class="hover:text-primary transition-colors duration-300 px-3 py-2 rounded-md text-sm font-medium">Certificates</a>
+                        <a href="certificates.html" class="text-white block px-3 py-2 rounded-md text-base font-medium">Certificates</a>
                         <a href="education.html" class="hover:text-primary transition-colors duration-300 px-3 py-2 rounded-md text-sm font-medium">Education</a>
                         <a href="projects.html" class="hover:text-primary transition-colors duration-300 px-3 py-2 rounded-md text-sm font-medium">Projects</a>
-                        <a href="contact.html" class="bg-primary hover:bg-cyan-400 text-black px-4 py-2 rounded-full transition-all duration-300 font-bold shadow-lg shadow-primary/20 hover:shadow-primary/50">Contact Me</a>
+                        <a href="contact.html" class="bg-primary hover:bg-cyan-400 text-black px-4 py-2 rounded-full transition-all duration-300 font-bold">Contact Me</a>
                     </div>
                 </div>
-                <div class="-mr-2 flex md:hidden">
+                 <div class="-mr-2 flex md:hidden">
                     <button id="mobile-menu-btn" class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-gray-700"><i class="fas fa-bars text-xl"></i></button>
                 </div>
             </div>
         </div>
         <div class="md:hidden hidden bg-black/95 backdrop-blur-md absolute w-full border-b border-gray-800" id="mobile-menu">
             <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3 text-center">
-                <a href="index.html" class="text-gray-300 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Home</a>
-                <a href="about.html" class="text-gray-300 hover:text-white block px-3 py-2 rounded-md text-base font-medium">About</a>
-                <a href="skills.html" class="text-primary block px-3 py-2 rounded-md text-base font-medium">Skills</a>
-                <a href="certificates.html" class="text-gray-300 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Certificates</a>
-                <a href="education.html" class="text-gray-300 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Education</a>
-                <a href="projects.html" class="text-gray-300 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Projects</a>
-                <a href="contact.html" class="text-primary font-bold block px-3 py-2 rounded-md text-base">Contact</a>
+                 <a href="index.html" class="text-gray-300 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Home</a>
+                 <a href="about.html" class="text-white block px-3 py-2 rounded-md text-base font-medium">About</a>
+                 <a href="skills.html" class="text-gray-300 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Skills</a>
+                 <a href="certificates.html" class="text-white block px-3 py-2 rounded-md text-base font-medium">Certificates</a>
+                 <a href="education.html" class="text-gray-300 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Education</a>
+                 <a href="projects.html" class="text-gray-300 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Projects</a>
+                 <a href="contact.html" class="text-primary font-bold block px-3 py-2 rounded-md text-base">Contact</a>
             </div>
         </div>
     </nav>
 
-    <section id="skills" class="min-h-screen py-16 sm:py-20 bg-black/30 pt-32">
+    <section id="skills" class="min-h-screen py-20 bg-black/30 pt-32">
         <div class="max-w-6xl mx-auto px-6">
-            <div class="text-center mb-10 sm:mb-16" data-aos="fade-up">
+            <div class="text-center mb-16" data-aos="fade-up">
                 <h2 class="text-3xl md:text-4xl font-bold mb-4">My <span class="text-primary">Skills</span></h2>
-                 <div class="w-16 h-1 bg-gradient-to-r from-primary to-secondary mx-auto rounded-full"></div>
             </div>
             
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-10 sm:gap-12">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
                 <div data-aos="fade-right">
-                    <h3 class="text-2xl font-bold mb-6 flex items-center gap-2"><i class="fas fa-laptop-code text-primary"></i> Technical Proficiency</h3>
-                    <div class="space-y-6">
-                        <div class="mb-2">
-                            <div class="flex justify-between mb-1">
-                                <span class="font-medium text-sm sm:text-base">HTML/CSS</span>
-                                <span class="text-blue-500 text-sm sm:text-base">95%</span>
-                            </div>
-                            <div class="w-full bg-gray-800 rounded-full h-2.5">
-                                <div class="bg-blue-500 h-2.5 rounded-full skill-bar" style="width: 95%" data-width="95%"></div>
-                            </div>
+                    <h3 class="text-2xl font-bold mb-6 flex items-center gap-3">
+                        <lord-icon
+                            src="https://cdn.lordicon.com/qhgmphtg.json"
+                            trigger="loop"
+                            delay="2000"
+                            colors="primary:#00d4ff,secondary:#ffffff"
+                            style="width:40px;height:40px">
+                        </lord-icon>
+                        Technical
+                    </h3>
+                    <br>
+                    
+                    <div class="mb-6">
+                        <div class="flex justify-between mb-1">
+                            <span class="font-medium">HTML/CSS</span>
+                            <span class="text-blue-500">95%</span>
                         </div>
-                        <div class="mb-2">
-                            <div class="flex justify-between mb-1">
-                                <span class="font-medium text-sm sm:text-base">SQL</span>
-                                <span class="text-orange-500 text-sm sm:text-base">80%</span>
-                            </div>
-                            <div class="w-full bg-gray-800 rounded-full h-2.5">
-                                <div class="bg-orange-500 h-2.5 rounded-full skill-bar" style="width: 80%" data-width="80%"></div>
-                            </div>
+                        <div class="w-full bg-gray-800 rounded-full h-2.5 overflow-hidden">
+                            <div class="bg-blue-500 h-2.5 rounded-full skill-bar" data-width="95%"></div>
                         </div>
-                        <div class="mb-2">
-                            <div class="flex justify-between mb-1">
-                                <span class="font-medium text-sm sm:text-base">JavaScript</span>
-                                <span class="text-secondary text-sm sm:text-base">75%</span>
-                            </div>
-                            <div class="w-full bg-gray-800 rounded-full h-2.5">
-                                <div class="bg-secondary h-2.5 rounded-full skill-bar" style="width: 75%" data-width="75%"></div>
-                            </div>
+                    </div>
+
+                    <div class="mb-6">
+                        <div class="flex justify-between mb-1">
+                            <span class="font-medium">SQL</span>
+                            <span class="text-orange-500">80%</span>
                         </div>
-                        <div class="mb-2">
-                            <div class="flex justify-between mb-1">
-                                <span class="font-medium text-sm sm:text-base">React / Tailwind</span>
-                                <span class="text-purple-500 text-sm sm:text-base">75%</span>
-                            </div>
-                            <div class="w-full bg-gray-800 rounded-full h-2.5">
-                                <div class="bg-purple-500 h-2.5 rounded-full skill-bar" style="width: 75%" data-width="75%"></div>
-                            </div>
+                        <div class="w-full bg-gray-800 rounded-full h-2.5 overflow-hidden">
+                            <div class="bg-orange-500 h-2.5 rounded-full skill-bar" data-width="80%"></div>
                         </div>
-                         <div class="mb-2">
-                            <div class="flex justify-between mb-1">
-                                <span class="font-medium text-sm sm:text-base">NODE/PYTHON</span>
-                                <span class="text-primary text-sm sm:text-base">90%</span>
-                            </div>
-                            <div class="w-full bg-gray-800 rounded-full h-2.5">
-                                <div class="bg-primary h-2.5 rounded-full skill-bar" style="width: 90%" data-width="90%"></div>
-                            </div>
+                    </div>
+
+                    <div class="mb-6">
+                        <div class="flex justify-between mb-1">
+                            <span class="font-medium">JavaScript</span>
+                            <span class="text-secondary">75%</span>
                         </div>
-                        <div class="mb-2">
-                            <div class="flex justify-between mb-1">
-                                <span class="font-medium text-sm sm:text-base">C / C++</span>
-                                <span class="text-green-500 text-sm sm:text-base">85%</span>
-                            </div>
-                            <div class="w-full bg-gray-800 rounded-full h-2.5">
-                                <div class="bg-green-500 h-2.5 rounded-full skill-bar" style="width: 85%" data-width="85%"></div>
-                            </div>
+                        <div class="w-full bg-gray-800 rounded-full h-2.5 overflow-hidden">
+                            <div class="bg-secondary h-2.5 rounded-full skill-bar" data-width="75%"></div>
+                        </div>
+                    </div>
+
+                    <div class="mb-6">
+                        <div class="flex justify-between mb-1">
+                            <span class="font-medium">React / Tailwind</span>
+                            <span class="text-purple-500">75%</span>
+                        </div>
+                        <div class="w-full bg-gray-800 rounded-full h-2.5 overflow-hidden">
+                            <div class="bg-purple-500 h-2.5 rounded-full skill-bar" data-width="75%"></div>
+                        </div>
+                    </div>
+
+                    <div class="mb-6">
+                        <div class="flex justify-between mb-1">
+                            <span class="font-medium">NODE/PYTHON</span>
+                            <span class="text-primary">90%</span>
+                        </div>
+                        <div class="w-full bg-gray-800 rounded-full h-2.5 overflow-hidden">
+                            <div class="bg-primary h-2.5 rounded-full skill-bar" data-width="90%"></div>
+                        </div>
+                    </div>
+
+                    <div class="mb-6">
+                        <div class="flex justify-between mb-1">
+                            <span class="font-medium">C / C++</span>
+                            <span class="text-green-500">85%</span>
+                        </div>
+                        <div class="w-full bg-gray-800 rounded-full h-2.5 overflow-hidden">
+                            <div class="bg-green-500 h-2.5 rounded-full skill-bar" data-width="85%"></div>
                         </div>
                     </div>
                 </div>
 
-                <div class="grid grid-cols-2 gap-4 sm:gap-6" data-aos="fade-left">
-                    <h3 class="text-2xl font-bold mb-6 flex items-center gap-2 col-span-2 md:mt-0 mt-4"><i class="fas fa-users-cog text-secondary"></i> Soft Skills</h3>
-                    <div class="glass-card p-4 sm:p-6 rounded-2xl flex flex-col items-center justify-center hover:border-primary transition-colors">
-                        <div class="text-3xl sm:text-4xl font-bold text-white mb-2">90%</div>
-                        <div class="text-xs sm:text-sm text-gray-400">Communication</div>
+                <div class="grid grid-cols-2 gap-6" data-aos="fade-left">
+                    
+                    <div class="glass p-6 rounded-2xl flex flex-col items-center justify-center hover:border-primary transition-colors group">
+                        <div class="mb-3">
+                            <lord-icon
+                                src="https://cdn.lordicon.com/zpxybbhl.json"
+                                trigger="hover"
+                                colors="primary:#00d4ff,secondary:#ffffff"
+                                style="width:50px;height:50px">
+                            </lord-icon>
+                        </div>
+                        <div class="text-4xl font-bold text-white mb-1">90%</div>
+                        <div class="text-sm text-gray-400 group-hover:text-primary transition-colors">Communication</div>
                     </div>
-                    <div class="glass-card p-4 sm:p-6 rounded-2xl flex flex-col items-center justify-center hover:border-secondary transition-colors">
-                        <div class="text-3xl sm:text-4xl font-bold text-white mb-2">85%</div>
-                        <div class="text-xs sm:text-sm text-gray-400">Teamwork</div>
+
+                    <div class="glass p-6 rounded-2xl flex flex-col items-center justify-center hover:border-secondary transition-colors group">
+                        <div class="mb-3">
+                            <lord-icon
+                                src="https://cdn.lordicon.com/nobciafz.json"
+                                trigger="hover"
+                                colors="primary:#ff007a,secondary:#ffffff"
+                                style="width:50px;height:50px">
+                            </lord-icon>
+                        </div>
+                        <div class="text-4xl font-bold text-white mb-1">85%</div>
+                        <div class="text-sm text-gray-400 group-hover:text-secondary transition-colors">Teamwork</div>
                     </div>
-                    <div class="glass-card p-4 sm:p-6 rounded-2xl flex flex-col items-center justify-center hover:border-purple-500 transition-colors">
-                        <div class="text-3xl sm:text-4xl font-bold text-white mb-2">80%</div>
-                        <div class="text-xs sm:text-sm text-gray-400">Problem Solving</div>
+
+                    <div class="glass p-6 rounded-2xl flex flex-col items-center justify-center hover:border-purple-500 transition-colors group">
+                        <div class="mb-3">
+                             <lord-icon
+                                src="https://cdn.lordicon.com/wxnxiano.json"
+                                trigger="hover"
+                                colors="primary:#a855f7,secondary:#ffffff"
+                                style="width:50px;height:50px">
+                            </lord-icon>
+                        </div>
+                        <div class="text-4xl font-bold text-white mb-1">80%</div>
+                        <div class="text-sm text-gray-400 group-hover:text-purple-400 transition-colors">Problem Solving</div>
                     </div>
-                    <div class="glass-card p-4 sm:p-6 rounded-2xl flex flex-col items-center justify-center hover:border-green-500 transition-colors">
-                        <div class="text-3xl sm:text-4xl font-bold text-white mb-2">100%</div>
-                        <div class="text-xs sm:text-sm text-gray-400">Dedication</div>
+
+                    <div class="glass p-6 rounded-2xl flex flex-col items-center justify-center hover:border-green-500 transition-colors group">
+                         <div class="mb-3">
+                             <lord-icon
+                                src="https://cdn.lordicon.com/lupuorrc.json"
+                                trigger="hover"
+                                colors="primary:#22c55e,secondary:#ffffff"
+                                style="width:50px;height:50px">
+                            </lord-icon>
+                        </div>
+                        <div class="text-4xl font-bold text-white mb-1">100%</div>
+                        <div class="text-sm text-gray-400 group-hover:text-green-400 transition-colors">Dedication</div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <footer class="relative py-8 sm:py-12 border-t border-gray-900 text-center text-gray-500 text-sm overflow-hidden group">
-        <div class="absolute inset-0 z-0">
-            <img src="images/profile.jpg" alt="Footer Background" class="w-full h-full object-cover opacity-10 blur-sm grayscale group-hover:grayscale-0 group-hover:opacity-20 transition-all duration-700">
-            <div class="absolute inset-0 bg-gradient-to-t from-black via-black/90 to-black/80"></div>
-        </div>
-        <div class="relative z-10">
-            <div class="marquee-wrapper overflow-hidden bg-transparent py-10 mb-6">
-                <div class="marquee-content w-[200%]">
-                    <div class="flex justify-around w-1/2 text-3xl sm:text-4xl text-gray-600">
-                        <i class="fab fa-html5 hover:text-orange-500 transition-colors duration-300 hover:scale-125 hover:-translate-y-2 hover:drop-shadow-[0_0_15px_rgba(249,115,22,0.8)] cursor-pointer"></i>
-                        <i class="fab fa-css3-alt hover:text-blue-500 transition-colors duration-300 hover:scale-125 hover:-translate-y-2 hover:drop-shadow-[0_0_15px_rgba(59,130,246,0.8)] cursor-pointer"></i>
-                        <i class="fab fa-js hover:text-yellow-400 transition-colors duration-300 hover:scale-125 hover:-translate-y-2 hover:drop-shadow-[0_0_15px_rgba(250,204,21,0.8)] cursor-pointer"></i>
-                        <i class="fab fa-react hover:text-cyan-400 transition-colors duration-300 hover:scale-125 hover:-translate-y-2 hover:drop-shadow-[0_0_15px_rgba(34,211,238,0.8)] cursor-pointer"></i>
-                        <i class="fab fa-python hover:text-yellow-300 transition-colors duration-300 hover:scale-125 hover:-translate-y-2 hover:drop-shadow-[0_0_15px_rgba(253,224,71,0.8)] cursor-pointer"></i>
-                        <i class="fab fa-node hover:text-green-500 transition-colors duration-300 hover:scale-125 hover:-translate-y-2 hover:drop-shadow-[0_0_15px_rgba(34,197,94,0.8)] cursor-pointer"></i>
-                        <i class="fas fa-database hover:text-white transition-colors duration-300 hover:scale-125 hover:-translate-y-2 hover:drop-shadow-[0_0_15px_rgba(255,255,255,0.8)] cursor-pointer"></i>
-                    </div>
-                    <div class="flex justify-around w-1/2 text-3xl sm:text-4xl text-gray-600">
-                        <i class="fab fa-html5 hover:text-orange-500 transition-colors duration-300 hover:scale-125 hover:-translate-y-2 hover:drop-shadow-[0_0_15px_rgba(249,115,22,0.8)] cursor-pointer"></i>
-                        <i class="fab fa-css3-alt hover:text-blue-500 transition-colors duration-300 hover:scale-125 hover:-translate-y-2 hover:drop-shadow-[0_0_15px_rgba(59,130,246,0.8)] cursor-pointer"></i>
-                        <i class="fab fa-js hover:text-yellow-400 transition-colors duration-300 hover:scale-125 hover:-translate-y-2 hover:drop-shadow-[0_0_15px_rgba(250,204,21,0.8)] cursor-pointer"></i>
-                        <i class="fab fa-react hover:text-cyan-400 transition-colors duration-300 hover:scale-125 hover:-translate-y-2 hover:drop-shadow-[0_0_15px_rgba(34,211,238,0.8)] cursor-pointer"></i>
-                        <i class="fab fa-python hover:text-yellow-300 transition-colors duration-300 hover:scale-125 hover:-translate-y-2 hover:drop-shadow-[0_0_15px_rgba(253,224,71,0.8)] cursor-pointer"></i>
-                        <i class="fab fa-node hover:text-green-500 transition-colors duration-300 hover:scale-125 hover:-translate-y-2 hover:drop-shadow-[0_0_15px_rgba(34,197,94,0.8)] cursor-pointer"></i>
-                        <i class="fas fa-database hover:text-white transition-colors duration-300 hover:scale-125 hover:-translate-y-2 hover:drop-shadow-[0_0_15px_rgba(255,255,255,0.8)] cursor-pointer"></i>
-                    </div>
+    <footer class="relative py-12 border-t border-gray-900 text-center text-gray-500 text-sm overflow-hidden group">
+    
+    <div class="absolute inset-0 z-0">
+        <img src="images/profile.jpg" alt="Footer Background" class="w-full h-full object-cover opacity-10 blur-sm grayscale group-hover:grayscale-0 group-hover:opacity-20 transition-all duration-700">
+        <div class="absolute inset-0 bg-gradient-to-t from-black via-black/90 to-black/80"></div>
+    </div>
+
+    <div class="relative z-10">
+        
+        <style>
+            @keyframes scroll { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+            .marquee-content { display: flex; animation: scroll 20s linear infinite; }
+            /* Pause animation on hover for better interaction */
+            .marquee-wrapper:hover .marquee-content { animation-play-state: paused; }
+        </style>
+
+        <div class="marquee-wrapper overflow-hidden bg-transparent py-10 mb-6">
+            <div class="marquee-content w-[200%]">
+                <div class="flex justify-around w-1/2 text-4xl text-gray-600">
+                    <i class="fab fa-html5 hover:text-orange-500 transition-all duration-300 hover:scale-150 hover:-translate-y-2 hover:drop-shadow-[0_0_15px_rgba(249,115,22,0.8)] cursor-pointer"></i>
+                    <i class="fab fa-css3-alt hover:text-blue-500 transition-all duration-300 hover:scale-150 hover:-translate-y-2 hover:drop-shadow-[0_0_15px_rgba(59,130,246,0.8)] cursor-pointer"></i>
+                    <i class="fab fa-js hover:text-yellow-400 transition-all duration-300 hover:scale-150 hover:-translate-y-2 hover:drop-shadow-[0_0_15px_rgba(250,204,21,0.8)] cursor-pointer"></i>
+                    <i class="fab fa-react hover:text-cyan-400 transition-all duration-300 hover:scale-150 hover:-translate-y-2 hover:drop-shadow-[0_0_15px_rgba(34,211,238,0.8)] cursor-pointer"></i>
+                    <i class="fab fa-python hover:text-yellow-300 transition-all duration-300 hover:scale-150 hover:-translate-y-2 hover:drop-shadow-[0_0_15px_rgba(253,224,71,0.8)] cursor-pointer"></i>
+                    <i class="fab fa-node hover:text-green-500 transition-all duration-300 hover:scale-150 hover:-translate-y-2 hover:drop-shadow-[0_0_15px_rgba(34,197,94,0.8)] cursor-pointer"></i>
+                    <i class="fas fa-database hover:text-white transition-all duration-300 hover:scale-150 hover:-translate-y-2 hover:drop-shadow-[0_0_15px_rgba(255,255,255,0.8)] cursor-pointer"></i>
+                </div>
+                <div class="flex justify-around w-1/2 text-4xl text-gray-600">
+                    <i class="fab fa-html5 hover:text-orange-500 transition-all duration-300 hover:scale-150 hover:-translate-y-2 hover:drop-shadow-[0_0_15px_rgba(249,115,22,0.8)] cursor-pointer"></i>
+                    <i class="fab fa-css3-alt hover:text-blue-500 transition-all duration-300 hover:scale-150 hover:-translate-y-2 hover:drop-shadow-[0_0_15px_rgba(59,130,246,0.8)] cursor-pointer"></i>
+                    <i class="fab fa-js hover:text-yellow-400 transition-all duration-300 hover:scale-150 hover:-translate-y-2 hover:drop-shadow-[0_0_15px_rgba(250,204,21,0.8)] cursor-pointer"></i>
+                    <i class="fab fa-react hover:text-cyan-400 transition-all duration-300 hover:scale-150 hover:-translate-y-2 hover:drop-shadow-[0_0_15px_rgba(34,211,238,0.8)] cursor-pointer"></i>
+                    <i class="fab fa-python hover:text-yellow-300 transition-all duration-300 hover:scale-150 hover:-translate-y-2 hover:drop-shadow-[0_0_15px_rgba(253,224,71,0.8)] cursor-pointer"></i>
+                    <i class="fab fa-node hover:text-green-500 transition-all duration-300 hover:scale-150 hover:-translate-y-2 hover:drop-shadow-[0_0_15px_rgba(34,197,94,0.8)] cursor-pointer"></i>
+                    <i class="fas fa-database hover:text-white transition-all duration-300 hover:scale-150 hover:-translate-y-2 hover:drop-shadow-[0_0_15px_rgba(255,255,255,0.8)] cursor-pointer"></i>
                 </div>
             </div>
-            
-            <div class="space-y-2" data-aos="fade-up" data-aos-offset="0">
-                <p>&copy; 2025 Vraj Sevak. All rights reserved.</p>
-                <p class="text-xs text-gray-600">
-                    Designed & Developed by <span class="text-primary font-bold hover:text-white transition-colors cursor-default">Vraj Sevak</span>
-                </p>
-            </div>
         </div>
-    </footer>
+
+        <div class="space-y-2" data-aos="fade-up" data-aos-offset="0">
+            <p>&copy; 2025 Vraj Sevak. All rights reserved.</p>
+            <p class="text-xs text-gray-600">
+                Designed & Developed by <span class="text-primary font-bold hover:text-white transition-colors cursor-default">Vraj Sevak</span>
+            </p>
+        </div>
+    </div>
+</footer>
 
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script src="js/script.js"></script>
+
     <script>
+        // Init AOS
         AOS.init({
             duration: 1000,
             once: true,
         });
 
-        // Simple function to simulate skill bar animation on load/refresh
+        // Intersection Observer for Skill Bars
         document.addEventListener("DOMContentLoaded", function() {
             const skillBars = document.querySelectorAll('.skill-bar');
-            skillBars.forEach(bar => {
-                const width = bar.getAttribute('data-width');
-                bar.style.width = width;
-                bar.style.transition = 'width 1.5s ease-out';
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const bar = entry.target;
+                        const width = bar.getAttribute('data-width');
+                        
+                        // Apply width
+                        bar.style.width = width;
+                        
+                        // Stop observing once animated
+                        observer.unobserve(bar);
+                    }
+                });
+            }, { threshold: 0.5 }); // Trigger when 50% of the bar is visible
+
+            // Apply delay to each bar for staggered effect
+            skillBars.forEach((bar, index) => {
+                bar.style.transitionDelay = `${index * 1.50}s`; // Changed to 0.2s for faster cascading
+                observer.observe(bar);
             });
         });
     </script>
